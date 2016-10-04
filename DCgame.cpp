@@ -37,43 +37,48 @@ DCgame::DCgame()
 void DCgame::intro()
 {
 	displayPtr->displayNext(DCdisplay::displayOutput::titles1);
-	timerPtr->timerWithoutCount(5);
+	timerPtr->timerWithoutCount(3);
 	displayPtr->displayNext(DCdisplay::displayOutput::titles2);
-	timerPtr->timerWithoutCount(5);
+	timerPtr->timerWithoutCount(3);
 	displayPtr->displayNext(DCdisplay::displayOutput::clear);
 }
 
 void DCgame::setup()
 {
-	bool player1AI, player2AI, PvP, PvAI;
 	bool goodToGo = false;
 	char input;
 
-	//display -> ask user for pvp or pvai game
-	displayPtr->displayNext(DCdisplay::displayOutput::PvPorAI);
 	//loop until acceptable response
 	while(!goodToGo)
 	{
 		try
 		{
-			input = cin.get();
-			toupper(input);
-			if (input == 'P' || input == 'C')
+			//display -> ask user for pvp or pvai game
+			displayPtr->displayNext(DCdisplay::displayOutput::PvPorAI);
+			cin >> input;
+			input = toupper(input);
+			if (input == 'P' || input == 'C' || input == 'T')
 			{
 				goodToGo = true;
 				switch (input)
 				{
 				case 'P':
-					player1->setIsAI(false);
-					player2->setIsAI(false);
+					player1 = new DCplayer(false);
+					player2 = new DCplayer(false);
 					break;
 				case 'C':
-					player1->setIsAI(false);
-					player2->setIsAI(true);
-				default:
-					player1->setIsAI(true);
-					player2->setIsAI(true);
+					player1 = new DCplayer(false);
+					player2 = new DCplayer(true);
+					break;
+				case 'T':
+					player1 = new DCplayer(true);
+					player2 = new DCplayer(true);
+					break;
 				}
+			}
+			else
+			{
+				throw exception();
 			}
 		}
 		catch (exception)
@@ -108,8 +113,8 @@ void DCgame::duel()
 
 void DCgame::connectPlayers()
 {
-	player1->setOpponent(player2);
-	player2->setOpponent(player1);
+	player1->setOpponent(*player2);
+	player2->setOpponent(*player1);
 }
 
 void DCgame::exit()

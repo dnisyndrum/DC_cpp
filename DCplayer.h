@@ -31,18 +31,23 @@ class DCplayer
 {
 public:
 	//enum for each of the four houses
-	enum house { Gryffinfor, Hufflepuff, Ravenclaw, Slytherin };
+	enum house { 
+		Gryffinfor, 
+		Hufflepuff, 
+		Ravenclaw, 
+		Slytherin 
+	};
 
 	//constructor
-	DCplayer(bool duelPC = false) : myStamina(100), myBeans(100), isAI(duelPC)
+	DCplayer(bool duelPC = true) : myStamina(100), myBeans(100), isAI(duelPC)
 	{
-		if (isAI) { AISelectName(); };
 		displayPtr = new DCdisplay();
 		timerPtr = new DCtimer();
 		displayPtr->setSinglePlayerStamina(getStamina());
 		displayPtr->setSinglePlayerName(getName());
 		displayPtr->setSinglePlayerHouse(getHouse());
 		displayPtr->setSinglePlayerBeans(getBeans());
+		setup();
 	};
 
 	//getters and setters
@@ -74,6 +79,8 @@ private:
 	bool houseSelect(istream&);
 	//select at random a name for an AI
 	void AISelectName();
+	//select at random a house for an AI
+	void AISelectHouse();
 
 	house myHouse;
 	string myName;

@@ -70,6 +70,7 @@ void DCdisplay::displayNext(displayOutput display)
 		break;
 	case clear:
 		system("CLS");
+		break;
 	case badInput:
 		cout << "You have entered an invalid input, try again\n";
 		break;
