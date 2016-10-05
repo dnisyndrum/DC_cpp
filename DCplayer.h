@@ -43,10 +43,6 @@ public:
 	{
 		displayPtr = new DCdisplay();
 		timerPtr = new DCtimer();
-		displayPtr->setSinglePlayerStamina(getStamina());
-		displayPtr->setSinglePlayerName(getName());
-		displayPtr->setSinglePlayerHouse(getHouse());
-		displayPtr->setSinglePlayerBeans(getBeans());
 		setup();
 	};
 

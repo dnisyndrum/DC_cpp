@@ -81,6 +81,7 @@
     <ClCompile Include="DCgame.cpp" />
     <ClCompile Include="DCplayer.cpp" />
     <ClCompile Include="DCtimer.cpp" />
+    <ClCompile Include="DCwager.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

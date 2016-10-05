@@ -31,6 +31,7 @@ DCgame::DCgame()
 {
 	displayPtr = new DCdisplay();
 	timerPtr = new DCtimer();
+	wagerPtr = new DCwager();
 	game();							
 }
 
@@ -40,6 +41,29 @@ void DCgame::intro()
 	timerPtr->timerWithoutCount(3);
 	displayPtr->displayNext(DCdisplay::displayOutput::titles2);
 	timerPtr->timerWithoutCount(3);
+	displayPtr->displayNext(DCdisplay::displayOutput::fullScreen);
+	cin.get();
+	displayPtr->displayNext(DCdisplay::displayOutput::clear);
+	displayPtr->displayNext(DCdisplay::displayOutput::intro1);
+	cin.get();
+	displayPtr->displayNext(DCdisplay::displayOutput::intro2);
+	cin.get();
+	displayPtr->displayNext(DCdisplay::displayOutput::clear);
+}
+
+void DCgame::readyToDuel()
+{
+	displayPtr->displayNext(DCdisplay::displayOutput::clear);
+	displayPtr->displayNext(DCdisplay::displayOutput::readyToDuel);
+	timerPtr->timerWithoutCount(1);
+	displayPtr->displayNext(DCdisplay::displayOutput::count1);
+	timerPtr->timerWithoutCount(1);
+	displayPtr->displayNext(DCdisplay::displayOutput::count2);
+	timerPtr->timerWithoutCount(1);
+	displayPtr->displayNext(DCdisplay::displayOutput::count3);
+	timerPtr->timerWithoutCount(1);
+	displayPtr->displayNext(DCdisplay::displayOutput::count4);
+	timerPtr->timerWithoutCount(1);
 	displayPtr->displayNext(DCdisplay::displayOutput::clear);
 }
 
@@ -96,6 +120,13 @@ void DCgame::duel()
 	bool exitDuel = false;
 	while(!exitDuel)
 	{
+		//set player's health, name, stamina and beans before each turn set
+		displayPtr->setStamina(player1->getStamina(), player2->getStamina());
+		displayPtr->setName(player1->getName(), player2->getName());
+		displayPtr->setHouse(player1->getHouse(), player2->getHouse());
+		displayPtr->setBeans(player1->getBeans(), player2->getBeans());
+		//display duel graphic at start of every turn set
+		displayPtr->displayNext(DCdisplay::displayOutput::duelGraphic);
 		if ((player1->getStamina() > 0) || (player2->getStamina() > 0))
 		{
 			player1->playerTurn();	//player 1 takes a turn if opponent and player still have stamina
@@ -108,6 +139,8 @@ void DCgame::duel()
 		{
 			exitDuel = true;		//exit duel if either player's stamina is less than/equal to 0
 		}
+		//clear screen before looping again
+		displayPtr->displayNext(DCdisplay::displayOutput::clear);
 	}
 }
 
@@ -128,9 +161,10 @@ void DCgame::game()
 	intro();
 	//setup players (name, house)
 	setup();
+	wager();
 	connectPlayers();
+	readyToDuel();
 	duel();
-	
 }
 
 void DCgame::setStaminaToDisplay()
@@ -155,6 +189,13 @@ void DCgame::setBeansToDisplay()
 
 void DCgame::wager()
 {
-
+	if (!player1->getIsAI() && player2->getIsAI())
+	{
+		wagerPtr->singlePlayerWager(player1);
+	}
+	else if (!player1->getIsAI() && !player2->getIsAI())
+	{
+		wagerPtr->twoPlayerWager(player1, player2);
+	}
 }
 

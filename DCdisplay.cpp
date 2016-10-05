@@ -47,7 +47,10 @@ void DCdisplay::displayNext(displayOutput display)
 		cout << "  |__|        |__________|     |__|         |__|     |________|   |__|    |__|\n\n";
 		break;
 	case titles2:
-		cout << "                                 DUELING CLUB                                 \n";
+		cout << "                                 DUELING CLUB                                 \n\n";
+		break;
+	case fullScreen:
+		cout << "                (Please expand your window to fill the screen)";
 		break;
 	case intro1:
 		cout << "Professor Lochhart:\n";
@@ -58,13 +61,14 @@ void DCdisplay::displayNext(displayOutput display)
 		break;
 	case intro2:
 		cout << "There are several spells you can use in dueling:\n";
-		cout << "   -Rictusempra - \n";
-		cout << "   -Confringo - \n";
-		cout << "   -Locomotor Mortis - \n";
-		cout << "   -Stupify - \n";
-		cout << "   -Mimblewimble - \n";
-		cout << "   -Protego - \n";
-		cout << "   -Expelliarmus - \n";
+		cout << "   -Rictusempra -      tickling charm, inflicts damage\n";
+		cout << "   -Confringo -        exploding spell, causes sizable damage\n";
+		cout << "   -Locomotor Mortis - leg lock curse, opponent loses next turn\n";
+		cout << "   -Stupify -          inflicts damage, opponent's next spell is less powerful\n";
+		cout << "   -Mimblewimble -     your opponent is tongue-tied during next turn\n";
+		cout << "   -Protego -          rebounds last cast spell back to your opponent\n";
+		cout << "   -Expelliarmus -     causes damage, opponent loses next turn\n";
+		break;
 	case PvPorAI:
 		cout << "Would you like to duel the computer or another player(P,C)?\n";
 		break;
@@ -81,52 +85,49 @@ void DCdisplay::displayNext(displayOutput display)
 		cout << "Stamina:    ";
 		for (int i = 0; i < (player1Stamina / 10); i++)
 		{
-			cout << " | ";
+			cout << " |";
 		}
-		cout << " : " << player1Stamina << "\n\n";
-		cout << "         ____________________       \n";
-		cout << "        |\___________________\      \n";
-		cout << "        | |         O         |     \n";
-		cout << "        | |       \-|-        |     \n";
-		cout << "        | |        / \        |     \n";
-		cout << "        | |                   |     \n";
-		cout << "        | |         *         |     \n";
-		cout << "        | |      _  |  _      |     \n";
-		cout << "        | |     //  |  \\     |     \n";
-		cout << "        | |    ||   |   ||    |     \n";
-		cout << "        | |     \\__|__//     |     \n";
-		cout << "        | |      _  |  _      |     \n";
-		cout << "        | |     //  |  \\     |     \n";
-		cout << "        | |    | \__|__/ |    |     \n";
-		cout << "        | |     \___|___/     |     \n";
-		cout << "        | |      ___|___      |     \n";
-		cout << "        | |     /   |   \     |     \n";
-		cout << "        | |    |    |    |    |     \n";
-		cout << "        | |     \___|___/     |     \n";
-		cout << "        | |      ___|___      |     \n";
-		cout << "        | |     / __|__ \     |     \n";
-		cout << "        | |    | /  |  \ |    |     \n";
-		cout << "        | |     \\  |  //     |     \n";
-		cout << "        | |      ___|___      |     \n";
-		cout << "        | |     //  |  \\     |     \n";
-		cout << "        | |    ||   |   ||    |     \n";
-		cout << "        | |     \\  |  //     |     \n";
-		cout << "        | |         |         |     \n";
-		cout << "        | |         *         |     \n";
-		cout << "        | |                   |     \n";
-		cout << "        | |         O         |     \n";
-		cout << "        | |        -|-/       |     \n";
-		cout << "        | |        / \        |     \n";
-		cout << "         \|___________________|     \n\n";
+		cout << " : " << player1Stamina << "\n";
+		cout << "         _____________     \n";
+		cout << "        |       O     |     \n";
+		cout << "        |      -|-    |     \n";
+		cout << "        |      /|     |     \n";
+		cout << "        |      *      |     \n";
+		cout << "        |      |      |     \n";
+		cout << "        |  |   |   |  |     \n";
+		cout << "        |  |   |   |  |     \n";
+		cout << "        |   |__|__|   |     \n";
+		cout << "        |      |      |     \n";
+		cout << "        | |    |    | |     \n";
+		cout << "        | |    |    | |     \n";
+		cout << "        |  |___|___|  |     \n";
+		cout << "        |   ___|___   |     \n";
+		cout << "        |  |   |   |  |     \n";
+		cout << "        | |    |    | |     \n";
+		cout << "        |  |___|___|  |     \n";
+		cout << "        |   ___|___   |     \n";
+		cout << "        |  |   |   |  |     \n";
+		cout << "        | |    |    | |     \n";
+		cout << "        |  |   |   |  |     \n";
+		cout << "        |    __|__    |     \n";
+		cout << "        |   |  |  |   |     \n";
+		cout << "        |  |   |   |  |     \n";
+		cout << "        |   |  |  |   |     \n";
+		cout << "        |      |      |     \n";
+		cout << "        |      *      |     \n";
+		cout << "        |       O     |     \n";
+		cout << "        |      -|-    |     \n";
+		cout << "        |______/|_____|     \n";
 		cout << "Player 2:   " << player2Name << "\n";
 		cout << "House:      " << player2House << "\n";
 		cout << "Beans left: " << player2Beans << "\n";
 		cout << "Stamina:    ";
 		for (int i = 0; i < (player2Stamina / 10); i++)
 		{
-			cout << " | ";
+			cout << " |";
 		}
 		cout << " : " << player1Stamina << "\n\n";
+		break;
 	case selectSpell:
 		cout << playerName << ", select a spell to cast:\n";
 		cout << "   -Rictusempra      (R)\n";
@@ -136,7 +137,25 @@ void DCdisplay::displayNext(displayOutput display)
 		cout << "   -Mimblewimble     (M)\n";
 		cout << "   -Protego          (P)\n";
 		cout << "   -Expelliarmus     (E)\n";
+		break;
+	case readyToDuel:
+		cout << "Wands at the ready!\n";
+		break;
+	case count1:
+		cout << "1...\n";
+		break;
+	case count2:
+		cout << "2...\n";
+		break;
+	case count3:
+		cout << "3...\n";
+		break;
+	case count4:
+		cout << "Duel!\n";
+		break;
+	
 	}
+
 }
 
 

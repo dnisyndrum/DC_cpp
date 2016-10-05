@@ -47,7 +47,17 @@ public:
 		exit, 
 		clear,
 		badInput,
-		selectSpell
+		selectSpell,
+		readyToDuel,
+		count1, 
+		count2,
+		count3,
+		count4,
+		fullScreen,
+		wagerPrompt,
+		invalidTooMany,
+		invalidTooFew,
+		wagerReady
 	};
 
 	//constructor

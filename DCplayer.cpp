@@ -21,6 +21,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <thread>
 #include "DCplayer.h"
 #include "DCdisplay.h"
 #include "DCtimer.h"
@@ -108,14 +109,24 @@ bool DCplayer::nameSelect(istream& sin)
 
 void DCplayer::playerTurn()
 {
+	bool spellSelected = false;
 	if (isAI)
 	{
+		//select from list of spells depending on health and opponent's health
 
 	}
 	else
 	{
-		//prompt player to select a spell to cast
+		//prompt player to select a spell to cast, set player attributes
+		displayPtr->setSinglePlayerName(getName());
+		displayPtr->setSinglePlayerHouse(getHouse());
+		displayPtr->setSinglePlayerBeans(getBeans());
+		displayPtr->setSinglePlayerStamina(getStamina());
 		displayPtr->displayNext(DCdisplay::displayOutput::selectSpell);
+		while (!spellSelected)
+		{
+
+		}
 	}
 }
 

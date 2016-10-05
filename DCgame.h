@@ -45,6 +45,7 @@ private:
 	void wager();				//prompts either one or both players to set bean wagers
 	void duel();				//houses the main dueling game
 	void exit();				//calls destructors and exits game
+	void readyToDuel();
 	void setStaminaToDisplay();
 	void setNameToDisplay();
 	void setHouseToDisplay();
@@ -53,6 +54,7 @@ private:
 	DCtimer* timerPtr;
 	DCdisplay* displayPtr;
 	DCplayer* currentTurn;
+	DCwager* wagerPtr;
 	DCplayer* player1;
 	DCplayer* player2;
 	

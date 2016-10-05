@@ -34,10 +34,12 @@ public:
 	DCtimer(int length) : timerLength(length){};
 	void timerWithCount(int length);		//shows countdown
 	void timerWithoutCount(int length);		//no countdown shown
+	void setExitLoop(bool exit) { exitLoop = exit; }
 
 private:
 	//length of timer, used for delay or countdown between displays
 	int timerLength;
+	bool exitLoop = false;
 };
 #endif
 

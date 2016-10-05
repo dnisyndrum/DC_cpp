@@ -28,7 +28,7 @@ using namespace std;
 void DCtimer::timerWithCount(int length)
 {
 	chrono::steady_clock::time_point endTime = chrono::steady_clock::now() + chrono::seconds(length);
-	while (chrono::steady_clock::now() < endTime)
+	while ((chrono::steady_clock::now() < endTime) || exitLoop)
 	{
 		cout << length << "  ";
 		_sleep(1000);
