@@ -18,7 +18,9 @@
 //        Private Properties:
 //            
 //-----------------------------------------------------------------------------
+#include <windows.h>
 #include <cstdlib>
+#include <future>
 #include <iostream>
 #include <string>
 #include <thread>
@@ -36,12 +38,12 @@ void DCplayer::setup()
 		//setup for human player
 		while (!nameSelected)
 		{
-			cout << "Enter a name for your wizard:\n";
+			displayPtr->displayNext(DCdisplay::displayOutput::enterName);
 			nameSelected = nameSelect(cin);
 		}
 		while (!houseSelected)
 		{
-			cout << "Select a Hogwarts house for your wizard (G, H, R, S):\n";
+			displayPtr->displayNext(DCdisplay::displayOutput::enterHouse);
 			houseSelected = houseSelect(cin);
 		}
 	}
@@ -78,12 +80,11 @@ bool DCplayer::houseSelect(istream& sin)
 			setHouse(Slytherin);
 			break;
 		}
-		cout << myName << "'s house is " << getHouse() << "\n";
 		goodToGo = true;
 	}
 	else
 	{
-		cout << "Invalid selection. Please select your Hogwarts house (G, H, R, S): ";
+		displayPtr->displayNext(DCdisplay::displayOutput::badHouseSelect);
 	}
 	return goodToGo;
 }
@@ -97,7 +98,7 @@ bool DCplayer::nameSelect(istream& sin)
 	sin >> nameSelection;
 	if (nameSelection.length() > MAX_LENGTH)
 	{
-		cout << "Wizard's name cannot exceed 24 characters. Please enter a new name: ";
+		displayPtr->displayNext(DCdisplay::displayOutput::nameTooLong);
 	}
 	else 
 	{
@@ -107,27 +108,90 @@ bool DCplayer::nameSelect(istream& sin)
 	return goodToGo;
 }
 
-void DCplayer::playerTurn()
+ char safeSpell()
 {
-	bool spellSelected = false;
-	if (isAI)
+	char input;
+	try
 	{
-		//select from list of spells depending on health and opponent's health
-
+		input = toupper(cin.get());
 	}
-	else
+	catch (exception)
 	{
-		//prompt player to select a spell to cast, set player attributes
-		displayPtr->setSinglePlayerName(getName());
-		displayPtr->setSinglePlayerHouse(getHouse());
-		displayPtr->setSinglePlayerBeans(getBeans());
-		displayPtr->setSinglePlayerStamina(getStamina());
-		displayPtr->displayNext(DCdisplay::displayOutput::selectSpell);
-		while (!spellSelected)
-		{
-
-		}
+		cout << "Bad spell selection.\n";
 	}
+	return input;
+}
+
+ bool DCplayer::playerTurn()
+ {
+	 int turnTimeLimit = 10;
+	 char selectedSpell = 'N';
+	 bool selected = false;
+	 bool doNotSkipNextTurn = true;
+
+	 if (isAI)
+	 {
+		 //select from list of spells depending on health and opponent's health
+
+	 }
+	 else
+	 {
+		 //prompt player to select a spell to cast, set player stamina
+		 displayPtr->setSinglePlayerName(getName());
+		 displayPtr->setSinglePlayerStamina(getStamina());
+		 displayPtr->displayNext(DCdisplay::displayOutput::selectSpell);
+		 chrono::steady_clock::time_point endTime = chrono::steady_clock::now() + chrono::seconds(turnTimeLimit);
+		 cin.clear();	//clear buffer
+		 while ((chrono::steady_clock::now() < endTime))
+		 {
+			 if (GetAsyncKeyState(VkKeyScan(114)))
+			 {
+				 cout << "selected r";
+				 _sleep(1000);
+				 break;
+			 }
+			 else if (GetAsyncKeyState(VkKeyScan(99)))
+			 {
+				 cout << "selected c";
+				 _sleep(1000);
+				 break;
+			 }
+			 else if (GetAsyncKeyState(VkKeyScan(108)))
+			 {
+				 cout << "selected l";
+				 _sleep(1000);
+				 break;
+			 }
+			 else if (GetAsyncKeyState(VkKeyScan(115)))
+			 {
+				 cout << "selected s";
+			 _sleep(1000);
+				 break;
+			 }
+			 else if (GetAsyncKeyState(VkKeyScan(109)))
+			 {
+				 cout << "selected m";
+				 _sleep(1000);
+				 break;
+			 }
+			 else if (GetAsyncKeyState(VkKeyScan(112)))
+			 {
+				 cout << "selected p";
+				 _sleep(1000);
+				 break;
+			 }
+			 else if (GetAsyncKeyState(VkKeyScan(101)))
+			 {
+				 cout << "selected e";
+				 _sleep(1000);
+				 break;
+			 }
+		 }
+
+ 
+	}
+	displayPtr->displayNext(DCdisplay::displayOutput::clear);
+	return doNotSkipNextTurn;
 }
 
 string DCplayer::getHouse()

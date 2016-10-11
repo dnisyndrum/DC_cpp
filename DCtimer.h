@@ -32,7 +32,7 @@ class DCtimer
 public:
 	DCtimer(){};
 	DCtimer(int length) : timerLength(length){};
-	void timerWithCount(int length);		//shows countdown
+	void timerWithCount();		//shows countdown
 	void timerWithoutCount(int length);		//no countdown shown
 	void setExitLoop(bool exit) { exitLoop = exit; }
 

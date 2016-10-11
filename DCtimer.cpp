@@ -25,8 +25,9 @@
 #include "DCtimer.h"
 using namespace std;
 
-void DCtimer::timerWithCount(int length)
+void DCtimer::timerWithCount()
 {
+	int length = 10;
 	chrono::steady_clock::time_point endTime = chrono::steady_clock::now() + chrono::seconds(length);
 	while ((chrono::steady_clock::now() < endTime) || exitLoop)
 	{
@@ -34,6 +35,7 @@ void DCtimer::timerWithCount(int length)
 		_sleep(1000);
 		length--;
 	}
+	//return true;
 }
 
 void DCtimer::timerWithoutCount(int length)

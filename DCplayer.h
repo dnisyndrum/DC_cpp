@@ -38,6 +38,12 @@ public:
 		Slytherin 
 	};
 
+	struct spellSelectReturn
+	{
+		bool goodToGo = false;
+		char spell;
+	};
+
 	//constructor
 	DCplayer(bool duelPC = true) : myStamina(100), myBeans(100), isAI(duelPC)
 	{
@@ -60,8 +66,9 @@ public:
 
 	//sets up player information via user input
 	void setup();
-	void playerTurn();
 
+	bool playerTurn();
+	
 	//destructor
 	~DCplayer(){};
 
@@ -83,6 +90,7 @@ private:
 	int myStamina;
 	int myBeans;
 	bool isAI;
+	bool isMyTurn;
 	DCplayer* myOpponent;
 	DCtimer* timerPtr;
 	DCdisplay* displayPtr;

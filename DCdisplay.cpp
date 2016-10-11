@@ -153,7 +153,33 @@ void DCdisplay::displayNext(displayOutput display)
 	case count4:
 		cout << "Duel!\n";
 		break;
-	
+	case wagerPrompt:
+		cout << "Enter the number of Bertie Bott's Beans you would like to wager: ";
+		break;
+	case invalidTooMany:
+		cout << "You do not have that many Bertie Bott's Beans.\n";
+		break;
+	case invalidTooFew:
+		cout << "You have entered too small of an amount.";
+		break;
+	case wagerReady:
+		cout << "Bertie Bott's Bean wagers set.";
+		break;
+	case twoPlayerWagerPrompt:
+		cout << ", enter the number of Bertie Bott's Beans you would like to wager: ";
+		break;
+	case enterName:
+		cout << "Enter a name for your wizard:\n";
+		break;
+	case enterHouse:
+		cout << "Select a Hogwarts house for your wizard (G, H, R, S):\n";
+		break;
+	case nameTooLong:
+		cout << "Wizard's name cannot exceed 24 characters.\n";
+		break;
+	case badHouseSelect:
+		cout << "Invalid selection. Please select your Hogwarts house (G, H, R, S).\n";
+		break;
 	}
 
 }

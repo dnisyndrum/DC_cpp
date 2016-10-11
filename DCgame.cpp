@@ -25,6 +25,9 @@
 #include "DCtimer.h"
 #include "DCwager.h"
 #include "DCgame.h"
+#include <chrono>
+#include <ctime>
+#include <time.h>  
 using namespace std;
 
 DCgame::DCgame()
@@ -70,54 +73,41 @@ void DCgame::readyToDuel()
 void DCgame::setup()
 {
 	bool goodToGo = false;
-	char input;
-
+	
+	//display -> ask user for pvp or pvai game
+	displayPtr->displayNext(DCdisplay::displayOutput::PvPorAI);
 	//loop until acceptable response
 	while(!goodToGo)
 	{
-		try
-		{
-			//display -> ask user for pvp or pvai game
-			displayPtr->displayNext(DCdisplay::displayOutput::PvPorAI);
-			cin >> input;
-			input = toupper(input);
-			if (input == 'P' || input == 'C' || input == 'T')
+			if (GetAsyncKeyState(VkKeyScan(112)))
 			{
+				player1 = new DCplayer(false);
+				player2 = new DCplayer(false);
 				goodToGo = true;
-				switch (input)
-				{
-				case 'P':
-					player1 = new DCplayer(false);
-					player2 = new DCplayer(false);
-					break;
-				case 'C':
-					player1 = new DCplayer(false);
-					player2 = new DCplayer(true);
-					break;
-				case 'T':
-					player1 = new DCplayer(true);
-					player2 = new DCplayer(true);
-					break;
-				}
 			}
-			else
+			else if (GetAsyncKeyState(VkKeyScan(99)))
 			{
-				throw exception();
+				player1 = new DCplayer(false);
+				player2 = new DCplayer(true);
+				goodToGo = true;
 			}
-		}
-		catch (exception)
-		{
-			displayPtr->displayNext(DCdisplay::displayOutput::badInput);
-		}
+			else if (GetAsyncKeyState(VkKeyScan(116)))
+			{
+				player1 = new DCplayer(true);
+				player2 = new DCplayer(true);
+				goodToGo = true;
+			}	
 	}
+	displayPtr->displayNext(DCdisplay::displayOutput::clear);
 	//if pvp, player1ai = false and player2ai = false, else player1ai = false and player2ai = true
 	//set pvai to true/false, set pvp to true, false
-	
 }
 
 void DCgame::duel()
 {
 	bool exitDuel = false;
+	static bool player1NextTurn = true;
+	static bool player2NextTurn = true;
 	while(!exitDuel)
 	{
 		//set player's health, name, stamina and beans before each turn set
@@ -126,14 +116,18 @@ void DCgame::duel()
 		displayPtr->setHouse(player1->getHouse(), player2->getHouse());
 		displayPtr->setBeans(player1->getBeans(), player2->getBeans());
 		//display duel graphic at start of every turn set
+		displayPtr->displayNext(DCdisplay::displayOutput::clear);
 		displayPtr->displayNext(DCdisplay::displayOutput::duelGraphic);
-		if ((player1->getStamina() > 0) || (player2->getStamina() > 0))
-		{
-			player1->playerTurn();	//player 1 takes a turn if opponent and player still have stamina
+		if (((player1->getStamina() > 0) || (player2->getStamina() > 0)) && player1NextTurn)
+		{	
+			player1NextTurn = player1->playerTurn();	//player 1 takes a turn if opponent and player still have stamina
 		}
-		if ((player1->getStamina() > 0) || (player2->getStamina() > 0))
+		displayPtr->displayNext(DCdisplay::displayOutput::clear);
+		displayPtr->displayNext(DCdisplay::displayOutput::duelGraphic);
+		if (((player1->getStamina() > 0) || (player2->getStamina() > 0)) && player2NextTurn)
 		{
-			player2->playerTurn();	//player 2 takes a turn if opponent and player still have stamina
+
+			player2NextTurn = player2->playerTurn();	//player 2 takes a turn if opponent and player still have stamina
 		}
 		if ((player1->getStamina() <= 0) || (player2->getStamina() <= 0))
 		{
@@ -157,9 +151,7 @@ void DCgame::exit()
 
 void DCgame::game()
 {
-	//play intro
 	intro();
-	//setup players (name, house)
 	setup();
 	wager();
 	connectPlayers();
@@ -198,4 +190,28 @@ void DCgame::wager()
 		wagerPtr->twoPlayerWager(player1, player2);
 	}
 }
+
+
+/*
+void runwait ( int seconds )
+{
+clock_t endwait;
+endwait = clock () + seconds * CLOCKS_PER_SEC ;
+while (clock() < endwait)
+{
+ Do stuff while waiting 
+   }
+}
+*/
+
+/*
+int length = 10;
+chrono::steady_clock::time_point endTime = chrono::steady_clock::now() + chrono::seconds(length);
+while ((chrono::steady_clock::now() < endTime) || exitLoop)
+{
+cout << length << "  ";
+_sleep(1000);
+length--;
+}
+*/
 

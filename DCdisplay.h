@@ -57,7 +57,13 @@ public:
 		wagerPrompt,
 		invalidTooMany,
 		invalidTooFew,
-		wagerReady
+		wagerReady,
+		twoPlayerWagerPrompt,
+		enterName,
+		enterHouse,
+		nameTooLong,
+		badHouseSelect
+
 	};
 
 	//constructor
