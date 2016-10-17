@@ -18,6 +18,7 @@
 //        Private Properties:
 //            
 //-----------------------------------------------------------------------------
+#include<conio.h>
 #include <windows.h>
 #include <cstdlib>
 #include <future>
@@ -28,6 +29,8 @@
 #include "DCdisplay.h"
 #include "DCtimer.h"
 using namespace std;
+
+int getch_noblock();
 
 void DCplayer::setup()
 {
@@ -41,11 +44,8 @@ void DCplayer::setup()
 			displayPtr->displayNext(DCdisplay::displayOutput::enterName);
 			nameSelected = nameSelect(cin);
 		}
-		while (!houseSelected)
-		{
 			displayPtr->displayNext(DCdisplay::displayOutput::enterHouse);
-			houseSelected = houseSelect(cin);
-		}
+			houseSelect();
 	}
 	else
 	{
@@ -55,38 +55,35 @@ void DCplayer::setup()
 	}
 }
 
-bool DCplayer::houseSelect(istream& sin)
+void DCplayer::houseSelect()
 {
 	bool goodToGo = false;
-	char houseSelection = 'G';
-
-	sin >> houseSelection;
-	houseSelection = toupper(houseSelection);
-	if ((houseSelection == 'G') || (houseSelection == 'H') || (houseSelection == 'R') || (houseSelection == 'S'))
+	char keyPress;
+	while (!goodToGo)
 	{
-		
-		switch (houseSelection)
+		keyPress = getch();
+		keyPress = toupper(keyPress);
+		switch(keyPress)
 		{
 		case 'G':
 			setHouse(Gryffinfor);
+			goodToGo = true;
 			break;
 		case 'H':
 			setHouse(Hufflepuff);
+			goodToGo = true;
 			break;
 		case 'R':
 			setHouse(Ravenclaw);
+			goodToGo = true;
 			break;
 		case 'S':
 			setHouse(Slytherin);
+			goodToGo = true;
 			break;
 		}
-		goodToGo = true;
 	}
-	else
-	{
-		displayPtr->displayNext(DCdisplay::displayOutput::badHouseSelect);
-	}
-	return goodToGo;
+	displayPtr->displayNext(DCdisplay::displayOutput::clear);
 }
 
 bool DCplayer::nameSelect(istream& sin)
@@ -105,21 +102,10 @@ bool DCplayer::nameSelect(istream& sin)
 		setName(nameSelection);
 		goodToGo = true;
 	}
+	FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
+	timerPtr->timerWithoutCount(1);
+	displayPtr->displayNext(DCdisplay::displayOutput::clear);
 	return goodToGo;
-}
-
- char safeSpell()
-{
-	char input;
-	try
-	{
-		input = toupper(cin.get());
-	}
-	catch (exception)
-	{
-		cout << "Bad spell selection.\n";
-	}
-	return input;
 }
 
  bool DCplayer::playerTurn()
@@ -128,7 +114,9 @@ bool DCplayer::nameSelect(istream& sin)
 	 char selectedSpell = 'N';
 	 bool selected = false;
 	 bool doNotSkipNextTurn = true;
+	 char keyPress;
 
+	 FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
 	 if (isAI)
 	 {
 		 //select from list of spells depending on health and opponent's health
@@ -142,57 +130,60 @@ bool DCplayer::nameSelect(istream& sin)
 		 displayPtr->displayNext(DCdisplay::displayOutput::selectSpell);
 		 chrono::steady_clock::time_point endTime = chrono::steady_clock::now() + chrono::seconds(turnTimeLimit);
 		 cin.clear();	//clear buffer
-		 while ((chrono::steady_clock::now() < endTime))
+		 while (chrono::steady_clock::now() < endTime)
 		 {
-			 if (GetAsyncKeyState(VkKeyScan(114)))
+			 keyPress = getch_noblock();
+			 switch (keyPress)
 			 {
+			 case 'R':
 				 cout << "selected r";
+				 selected = true;
 				 _sleep(1000);
 				 break;
-			 }
-			 else if (GetAsyncKeyState(VkKeyScan(99)))
-			 {
+			 case 'C':
 				 cout << "selected c";
+				 selected = true;
 				 _sleep(1000);
 				 break;
-			 }
-			 else if (GetAsyncKeyState(VkKeyScan(108)))
-			 {
+			 case 'L':
 				 cout << "selected l";
+				 selected = true;
 				 _sleep(1000);
 				 break;
-			 }
-			 else if (GetAsyncKeyState(VkKeyScan(115)))
-			 {
+			 case 'S':
 				 cout << "selected s";
-			 _sleep(1000);
+				 selected = true;
+				 _sleep(1000);
 				 break;
-			 }
-			 else if (GetAsyncKeyState(VkKeyScan(109)))
-			 {
+			 case 'M':
 				 cout << "selected m";
+				 selected = true;
 				 _sleep(1000);
 				 break;
-			 }
-			 else if (GetAsyncKeyState(VkKeyScan(112)))
-			 {
+			 case 'P':
 				 cout << "selected p";
+				 selected = true;
 				 _sleep(1000);
 				 break;
-			 }
-			 else if (GetAsyncKeyState(VkKeyScan(101)))
-			 {
+			 case 'E':
 				 cout << "selected e";
+				 selected = true;
 				 _sleep(1000);
 				 break;
 			 }
+			 if (selected){ break; }
 		 }
-
- 
 	}
 	displayPtr->displayNext(DCdisplay::displayOutput::clear);
 	return doNotSkipNextTurn;
 }
+
+ int getch_noblock() {
+	 if (_kbhit())
+		 return toupper(_getch());
+	 else
+		 return -1;
+ }
 
 string DCplayer::getHouse()
 {

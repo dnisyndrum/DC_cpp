@@ -28,6 +28,7 @@
 #include <chrono>
 #include <ctime>
 #include <time.h>  
+#include<conio.h>
 using namespace std;
 
 DCgame::DCgame()
@@ -73,34 +74,36 @@ void DCgame::readyToDuel()
 void DCgame::setup()
 {
 	bool goodToGo = false;
-	
+	char keyPress;
 	//display -> ask user for pvp or pvai game
 	displayPtr->displayNext(DCdisplay::displayOutput::PvPorAI);
 	//loop until acceptable response
 	while(!goodToGo)
 	{
-			if (GetAsyncKeyState(VkKeyScan(112)))
-			{
-				player1 = new DCplayer(false);
-				player2 = new DCplayer(false);
-				goodToGo = true;
-			}
-			else if (GetAsyncKeyState(VkKeyScan(99)))
-			{
-				player1 = new DCplayer(false);
-				player2 = new DCplayer(true);
-				goodToGo = true;
-			}
-			else if (GetAsyncKeyState(VkKeyScan(116)))
-			{
-				player1 = new DCplayer(true);
-				player2 = new DCplayer(true);
-				goodToGo = true;
-			}	
+		keyPress = getch();
+		keyPress = toupper(keyPress);
+		switch (keyPress)
+		{
+		case 'P':
+			displayPtr->displayNext(DCdisplay::displayOutput::clear);
+			player1 = new DCplayer(false);
+			player2 = new DCplayer(false);
+			goodToGo = true;
+			break;
+		case 'C':
+			displayPtr->displayNext(DCdisplay::displayOutput::clear);
+			player1 = new DCplayer(false);
+			player2 = new DCplayer(true);
+			goodToGo = true;
+			break;
+		case 'T':
+			displayPtr->displayNext(DCdisplay::displayOutput::clear);
+			player1 = new DCplayer(true);
+			player2 = new DCplayer(true);
+			goodToGo = true;
+			break;
+		}
 	}
-	displayPtr->displayNext(DCdisplay::displayOutput::clear);
-	//if pvp, player1ai = false and player2ai = false, else player1ai = false and player2ai = true
-	//set pvai to true/false, set pvp to true, false
 }
 
 void DCgame::duel()
@@ -189,6 +192,11 @@ void DCgame::wager()
 	{
 		wagerPtr->twoPlayerWager(player1, player2);
 	}
+}
+
+void clearInputBuffer()
+{
+	FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
 }
 
 

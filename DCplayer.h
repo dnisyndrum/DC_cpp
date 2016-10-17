@@ -79,7 +79,7 @@ private:
 	//sets chosen name
 	bool nameSelect(istream&);
 	//ensure player selects a house (G, H, R, S)
-	bool houseSelect(istream&);
+	void houseSelect();
 	//select at random a name for an AI
 	void AISelectName();
 	//select at random a house for an AI
