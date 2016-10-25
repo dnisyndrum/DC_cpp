@@ -75,12 +75,13 @@ void DCgame::setup()
 {
 	bool goodToGo = false;
 	char keyPress;
+	displayPtr->displayNext(DCdisplay::displayOutput::setupBanner);
 	//display -> ask user for pvp or pvai game
 	displayPtr->displayNext(DCdisplay::displayOutput::PvPorAI);
 	//loop until acceptable response
 	while(!goodToGo)
 	{
-		keyPress = getch();
+		keyPress = _getch();
 		keyPress = toupper(keyPress);
 		switch (keyPress)
 		{
@@ -88,63 +89,149 @@ void DCgame::setup()
 			displayPtr->displayNext(DCdisplay::displayOutput::clear);
 			player1 = new DCplayer(false);
 			player2 = new DCplayer(false);
+			player1->setPlayerNumber(1);
+			player2->setPlayerNumber(2);
+			setDisplayPtrs();
 			goodToGo = true;
 			break;
 		case 'C':
 			displayPtr->displayNext(DCdisplay::displayOutput::clear);
 			player1 = new DCplayer(false);
 			player2 = new DCplayer(true);
+			player1->setPlayerNumber(1);
+			player2->setPlayerNumber(2);
+			setDisplayPtrs();
 			goodToGo = true;
 			break;
 		case 'T':
 			displayPtr->displayNext(DCdisplay::displayOutput::clear);
 			player1 = new DCplayer(true);
 			player2 = new DCplayer(true);
+			player1->setPlayerNumber(1);
+			player2->setPlayerNumber(2);
+			setDisplayPtrs();
 			goodToGo = true;
 			break;
 		}
 	}
 }
 
+void DCgame::setDisplayPtrs()
+{
+	player1->setDisplayPtr(displayPtr);
+	player2->setDisplayPtr(displayPtr);
+}
+
 void DCgame::duel()
 {
+	bool goodToGo = false;
+	char keyPress;
 	bool exitDuel = false;
-	static bool player1NextTurn = true;
-	static bool player2NextTurn = true;
-	while(!exitDuel)
+	bool exitGame = false;
+	while (!exitGame)
 	{
 		//set player's health, name, stamina and beans before each turn set
-		displayPtr->setStamina(player1->getStamina(), player2->getStamina());
 		displayPtr->setName(player1->getName(), player2->getName());
 		displayPtr->setHouse(player1->getHouse(), player2->getHouse());
 		displayPtr->setBeans(player1->getBeans(), player2->getBeans());
-		//display duel graphic at start of every turn set
-		displayPtr->displayNext(DCdisplay::displayOutput::clear);
-		displayPtr->displayNext(DCdisplay::displayOutput::duelGraphic);
-		if (((player1->getStamina() > 0) || (player2->getStamina() > 0)) && player1NextTurn)
-		{	
-			player1NextTurn = player1->playerTurn();	//player 1 takes a turn if opponent and player still have stamina
-		}
-		displayPtr->displayNext(DCdisplay::displayOutput::clear);
-		displayPtr->displayNext(DCdisplay::displayOutput::duelGraphic);
-		if (((player1->getStamina() > 0) || (player2->getStamina() > 0)) && player2NextTurn)
+		displayPtr->setStamina(player1->getStamina(), player2->getStamina());
+		while (!exitDuel)
 		{
+			if (((player1->getStamina() < 0) || (player2->getStamina() < 0)) && player1->getIsMyTurn())
+			{
+				player1->playerTurn();	//player 1 takes a turn if opponent and player still have stamina
+			}
+			if (((player1->getStamina() < 0) || (player2->getStamina() < 0)) && player2->getIsMyTurn())
+			{
+				player2->playerTurn();	//player 2 takes a turn if opponent and player still have stamina
+			}
+			if ((player1->getStamina() <= 0) || (player2->getStamina() <= 0))
+			{
+				exitDuel = true;		//exit duel if either player's stamina is less than/equal to 0
+			}
+			//clear screen before looping again
+			displayPtr->displayNext(DCdisplay::displayOutput::clear);
+		}
+		//display winner
+		if (player1->getStamina() > player2->getStamina())
+		{
+			int player1Beans = player1->getBeans();
+			int player2Beans = player2->getBeans();
+			//award beans to winner from loser
+			player1->setBeans(player1Beans += wagerPtr->getPlayer1Wager());
+			//take beans from losing player if player is not an AI
+			if (!player2->getIsAI())
+			{
+				player2->setBeans(player2Beans -= wagerPtr->getPlayer1Wager());
+			}
+			displayPtr->displayNext(DCdisplay::displayOutput::player1Win);
+		}
+		else
+		{
+			int player1Beans = player1->getBeans();
+			int player2Beans = player2->getBeans();
+			//award beans to winner from loser
+			player2->setBeans(player2Beans += wagerPtr->getPlayer2Wager());
+			//take beans from losing player if player is not an AI
+			if (!player2->getIsAI())
+			{
+				player1->setBeans(player1Beans -= wagerPtr->getPlayer2Wager());
+			}
+			displayPtr->displayNext(DCdisplay::displayOutput::player2Win);
+		}
+		timerPtr->timerWithoutCount(2);
+		//ask if player would like to duel again
+		displayPtr->displayNext(DCdisplay::displayOutput::duelAgain);
+		//prompt player to player again or quit
+		while (!goodToGo)
+		{
+			keyPress = _getch();
+			keyPress = toupper(keyPress);
+			switch (keyPress)
+			{
+			case 'Y':
+				//call reset
+				reset();
+				goodToGo = true;
+				break;
+			case 'N':
+				exitGame = true;
+				goodToGo = true;
+				break;
+			}
+		}
+	}
+}
 
-			player2NextTurn = player2->playerTurn();	//player 2 takes a turn if opponent and player still have stamina
-		}
-		if ((player1->getStamina() <= 0) || (player2->getStamina() <= 0))
-		{
-			exitDuel = true;		//exit duel if either player's stamina is less than/equal to 0
-		}
-		//clear screen before looping again
-		displayPtr->displayNext(DCdisplay::displayOutput::clear);
+void DCgame::reset()
+{
+	//both players are not AI
+	if (player1->getIsAI() && player2->getIsAI())
+	{
+		player1->setStamina(100);
+		player2->setStamina(100);
+	}
+	//player 1 is not AI and player 2 is AI
+	else if (player1->getIsAI() && !player2->getIsAI())
+	{
+		player1->setStamina(100);
+		delete player2;
+		player2 = new DCplayer(true);
+	}
+	//both players are AI
+	else
+	{
+		delete player1;
+		delete player2;
+		player1 = new DCplayer(true);
+		player2 = new DCplayer(true);
 	}
 }
 
 void DCgame::connectPlayers()
 {
-	player1->setOpponent(*player2);
-	player2->setOpponent(*player1);
+	player1->setOpponent(player2);
+	player2->setOpponent(player1);
 }
 
 void DCgame::exit()
@@ -184,6 +271,7 @@ void DCgame::setBeansToDisplay()
 
 void DCgame::wager()
 {
+	displayPtr->displayNext(DCdisplay::displayOutput::setupBanner);
 	if (!player1->getIsAI() && player2->getIsAI())
 	{
 		wagerPtr->singlePlayerWager(player1);
@@ -193,12 +281,6 @@ void DCgame::wager()
 		wagerPtr->twoPlayerWager(player1, player2);
 	}
 }
-
-void clearInputBuffer()
-{
-	FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
-}
-
 
 /*
 void runwait ( int seconds )

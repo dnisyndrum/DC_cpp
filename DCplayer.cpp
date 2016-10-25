@@ -21,13 +21,13 @@
 #include<conio.h>
 #include <windows.h>
 #include <cstdlib>
-#include <future>
 #include <iostream>
 #include <string>
 #include <thread>
 #include "DCplayer.h"
 #include "DCdisplay.h"
 #include "DCtimer.h"
+#include "DCspells.h"
 using namespace std;
 
 int getch_noblock();
@@ -41,11 +41,12 @@ void DCplayer::setup()
 		//setup for human player
 		while (!nameSelected)
 		{
+			displayPtr->displayNext(DCdisplay::displayOutput::setupBanner);
 			displayPtr->displayNext(DCdisplay::displayOutput::enterName);
 			nameSelected = nameSelect(cin);
 		}
-			displayPtr->displayNext(DCdisplay::displayOutput::enterHouse);
-			houseSelect();
+		displayPtr->displayNext(DCdisplay::displayOutput::enterHouse);
+		houseSelect();
 	}
 	else
 	{
@@ -61,7 +62,7 @@ void DCplayer::houseSelect()
 	char keyPress;
 	while (!goodToGo)
 	{
-		keyPress = getch();
+		keyPress = _getch();
 		keyPress = toupper(keyPress);
 		switch(keyPress)
 		{
@@ -102,31 +103,35 @@ bool DCplayer::nameSelect(istream& sin)
 		setName(nameSelection);
 		goodToGo = true;
 	}
-	FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
-	timerPtr->timerWithoutCount(1);
-	displayPtr->displayNext(DCdisplay::displayOutput::clear);
 	return goodToGo;
 }
 
- bool DCplayer::playerTurn()
+ void DCplayer::playerTurn()
  {
 	 int turnTimeLimit = 10;
-	 char selectedSpell = 'N';
+	 char selectedSpell;
 	 bool selected = false;
-	 bool doNotSkipNextTurn = true;
 	 char keyPress;
-
-	 FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
 	 if (isAI)
 	 {
 		 //select from list of spells depending on health and opponent's health
-
+		 AISelectSpell();
+		 //print out spell selected
 	 }
 	 else
 	 {
-		 //prompt player to select a spell to cast, set player stamina
-		 displayPtr->setSinglePlayerName(getName());
-		 displayPtr->setSinglePlayerStamina(getStamina());
+		 displayPtr->displayNext(DCdisplay::displayOutput::clear);
+		 if (playerNumber == 1)
+		 {
+			 displayPtr->updatePlayer1Stamina(getStamina());
+		 }
+		 else
+		 {
+			 displayPtr->updatePlayer2Stamina(getStamina());
+		 }
+		 //display duel graphic at start of every turn set
+		 displayPtr->displayNext(DCdisplay::displayOutput::duelGraphic);
+		 displayPtr->printName(getName());
 		 displayPtr->displayNext(DCdisplay::displayOutput::selectSpell);
 		 chrono::steady_clock::time_point endTime = chrono::steady_clock::now() + chrono::seconds(turnTimeLimit);
 		 cin.clear();	//clear buffer
@@ -136,6 +141,7 @@ bool DCplayer::nameSelect(istream& sin)
 			 switch (keyPress)
 			 {
 			 case 'R':
+				 spellsPtr->castRictusempra(this, myOpponent);
 				 cout << "selected r";
 				 selected = true;
 				 _sleep(1000);
@@ -175,7 +181,6 @@ bool DCplayer::nameSelect(istream& sin)
 		 }
 	}
 	displayPtr->displayNext(DCdisplay::displayOutput::clear);
-	return doNotSkipNextTurn;
 }
 
  int getch_noblock() {
@@ -265,4 +270,9 @@ void DCplayer::AISelectHouse()
 		myHouse = Slytherin;
 		break;
 	}
+}
+
+void DCplayer::AISelectSpell()
+{
+
 }

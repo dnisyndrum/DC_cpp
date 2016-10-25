@@ -18,6 +18,8 @@
 //        Private Properties:
 //            
 //-----------------------------------------------------------------------------
+#include <string>
+
 using namespace std;
 
 #ifndef DCDISPLAY_H
@@ -62,14 +64,20 @@ public:
 		enterName,
 		enterHouse,
 		nameTooLong,
-		badHouseSelect
-
+		badHouseSelect,
+		setupBanner,
+		duelAgain,
+		player1Win,
+		player2Win
 	};
 
 	//constructor
 	DCdisplay(){};	//default
 	DCdisplay(displayOutput display, ostream& sout) : displayScreen(display){};
 	
+	//prints player 1 or player 2's name to the console
+	void printName(string name) { cout << name; }
+
 	//displays the next output screen
 	void displayNext(displayOutput);
 
@@ -95,7 +103,15 @@ public:
 		player1House = player1NewHouse;
 		player2House = player2NewHouse;
 	}
-
+	void updatePlayer1Stamina(int stamina)
+	{
+		player1Stamina = stamina;
+	}
+	void updatePlayer2Stamina(int stamina)
+	{
+		player2Stamina = stamina;
+	}
+	/*
 	//for single player, computer duel
 	void setSinglePlayerName(string name)
 	{
@@ -114,9 +130,7 @@ public:
 	{
 		playerStamina = stamina;
 	}
-
-	//destructor
-	~DCdisplay(){};
+*/
 	
 private:
 	//for DCgame class
@@ -129,13 +143,13 @@ private:
 	string player2House;
 	int player1Beans;
 	int player2Beans;
-
+	/*
 	//for DCplayer class
 	string playerName;
 	int playerStamina;
 	int playerBeans;
 	string playerHouse;
-	
+	*/
 };
 #endif
 

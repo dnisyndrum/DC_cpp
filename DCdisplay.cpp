@@ -79,20 +79,11 @@ void DCdisplay::displayNext(displayOutput display)
 		cout << "You have entered an invalid input, try again\n";
 		break;
 	case duelGraphic:
-		cout << "Player 1:   " << player1Name << "\n";
-		cout << "House:      " << player1House << "\n";
-		cout << "Beans left: " << player1Beans << "\n";
-		cout << "Stamina:    ";
-		for (int i = 0; i < (player1Stamina / 10); i++)
-		{
-			cout << " |";
-		}
-		cout << " : " << player1Stamina << "\n";
 		cout << "         _____________     \n";
-		cout << "        |       O     |     \n";
-		cout << "        |      -|-    |     \n";
-		cout << "        |      /|     |     \n";
-		cout << "        |      *      |     \n";
+		cout << "        |       O     |     Player 1:   " << player1Name << "\n";
+		cout << "        |      -|-    |     House:      " << player1House << "\n";
+		cout << "        |      /|     |     Beans left: " << player1Beans << "\n";
+		cout << "        |      *      |     Stamina:    " << player1Stamina << "\n";
 		cout << "        |      |      |     \n";
 		cout << "        |  |   |   |  |     \n";
 		cout << "        |  |   |   |  |     \n";
@@ -114,22 +105,16 @@ void DCdisplay::displayNext(displayOutput display)
 		cout << "        |  |   |   |  |     \n";
 		cout << "        |   |  |  |   |     \n";
 		cout << "        |      |      |     \n";
-		cout << "        |      *      |     \n";
-		cout << "        |       O     |     \n";
-		cout << "        |      -|-    |     \n";
-		cout << "        |______/|_____|     \n";
-		cout << "Player 2:   " << player2Name << "\n";
-		cout << "House:      " << player2House << "\n";
-		cout << "Beans left: " << player2Beans << "\n";
-		cout << "Stamina:    ";
-		for (int i = 0; i < (player2Stamina / 10); i++)
-		{
-			cout << " |";
-		}
-		cout << " : " << player1Stamina << "\n\n";
+		cout << "        |      *      |     Player 2:   " << player2Name << "\n";
+		cout << "        |       O     |     House:      " << player2House << "\n";
+		cout << "        |      -|-    |     Beans left: " << player2Beans << "\n";
+		cout << "        |______/|_____|     Stamina:    " << player2Stamina << "\n\n";
+		break;
+	case setupBanner:
+		cout << "\n-----------------------Dueling Club Setup-----------------------\n\n";
 		break;
 	case selectSpell:
-		cout << playerName << ", select a spell to cast:\n";
+		cout << ", select a spell to cast:\n";
 		cout << "   -Rictusempra      (R)\n";
 		cout << "   -Confringo        (C)\n";
 		cout << "   -Locomotor Mortis (L)\n";
@@ -180,11 +165,17 @@ void DCdisplay::displayNext(displayOutput display)
 	case badHouseSelect:
 		cout << "Invalid selection. Please select your Hogwarts house (G, H, R, S).\n";
 		break;
+	case duelAgain:
+		cout << "Would you like to duel again (Y,N)? ";
+		break;
+	case player1Win:
+		cout << player1Name << " won the duel! ";
+			break;
+	case player2Win:
+		cout << player2Name << "  won the duel! ";
+			break;
 	}
-
 }
-
-
 
 
 /*
