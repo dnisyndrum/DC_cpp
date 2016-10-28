@@ -137,42 +137,98 @@ bool DCplayer::nameSelect(istream& sin)
 		 cin.clear();	//clear buffer
 		 while (chrono::steady_clock::now() < endTime)
 		 {
+			 bool hit;
 			 keyPress = getch_noblock();
 			 switch (keyPress)
 			 {
 			 case 'R':
-				 spellsPtr->castRictusempra(this, myOpponent);
-				 cout << "selected r";
+				 hit = spellsPtr->castRictusempra(this, myOpponent);
+				 if (hit)
+				 {
+					 displayPtr->displayNext(DCdisplay::displayOutput::rictusHit);
+				 }
+				 else
+				 {
+					 displayPtr->displayNext(DCdisplay::displayOutput::rictusMiss);
+				 }
 				 selected = true;
 				 _sleep(1000);
 				 break;
 			 case 'C':
-				 cout << "selected c";
+				 hit = spellsPtr->castConfringo(this, myOpponent);
+				 if (hit)
+				 {
+					 displayPtr->displayNext(DCdisplay::displayOutput::confHit);
+				 }
+				 else
+				 {
+					 displayPtr->displayNext(DCdisplay::displayOutput::confMiss);
+				 }
 				 selected = true;
 				 _sleep(1000);
 				 break;
 			 case 'L':
-				 cout << "selected l";
+				 hit = spellsPtr->castLocomotorMortis(this, myOpponent);
+				 if (hit)
+				 {
+					 displayPtr->displayNext(DCdisplay::displayOutput::locoHit);
+				 }
+				 else
+				 {
+					 displayPtr->displayNext(DCdisplay::displayOutput::locoMiss);
+				 }
 				 selected = true;
 				 _sleep(1000);
 				 break;
 			 case 'S':
-				 cout << "selected s";
+				 hit = spellsPtr->castStupify(this, myOpponent);
+				 if (hit)
+				 {
+					 displayPtr->displayNext(DCdisplay::displayOutput::stupHit);
+				 }
+				 else
+				 {
+					 displayPtr->displayNext(DCdisplay::displayOutput::stupMiss);
+				 }
 				 selected = true;
 				 _sleep(1000);
 				 break;
 			 case 'M':
-				 cout << "selected m";
+				 hit = spellsPtr->castMimblewimble(this, myOpponent);
+				 if (hit)
+				 {
+					 displayPtr->displayNext(DCdisplay::displayOutput::mimbleHit);
+				 }
+				 else
+				 {
+					 displayPtr->displayNext(DCdisplay::displayOutput::mimbleMiss);
+				 }
 				 selected = true;
 				 _sleep(1000);
 				 break;
 			 case 'P':
-				 cout << "selected p";
+				 hit = spellsPtr->castProtego(this, myOpponent);
+				 if (hit)
+				 {
+					 displayPtr->displayNext(DCdisplay::displayOutput::protegoHit);
+				 }
+				 else
+				 {
+					 displayPtr->displayNext(DCdisplay::displayOutput::protegoMiss);
+				 }
 				 selected = true;
 				 _sleep(1000);
 				 break;
 			 case 'E':
-				 cout << "selected e";
+				 hit = spellsPtr->castExpelliarmus(this, myOpponent);
+				 if (hit)
+				 {
+					 displayPtr->displayNext(DCdisplay::displayOutput::expelHit);
+				 }
+				 else
+				 {
+					 displayPtr->displayNext(DCdisplay::displayOutput::expelMiss);
+				 }
 				 selected = true;
 				 _sleep(1000);
 				 break;

@@ -128,6 +128,7 @@ void DCgame::duel()
 	char keyPress;
 	bool exitDuel = false;
 	bool exitGame = false;
+	readyToDuel();
 	while (!exitGame)
 	{
 		//set player's health, name, stamina and beans before each turn set
@@ -137,14 +138,18 @@ void DCgame::duel()
 		displayPtr->setStamina(player1->getStamina(), player2->getStamina());
 		while (!exitDuel)
 		{
-			if (((player1->getStamina() < 0) || (player2->getStamina() < 0)) && player1->getIsMyTurn())
+			if (((player1->getStamina() > 0) || (player2->getStamina() > 0)) && (player1->getIsMyTurn()))
 			{
 				player1->playerTurn();	//player 1 takes a turn if opponent and player still have stamina
 			}
-			if (((player1->getStamina() < 0) || (player2->getStamina() < 0)) && player2->getIsMyTurn())
+			player1->setIsMyTurn(true);
+			player1->resetStupify();
+			if (((player1->getStamina() > 0) || (player2->getStamina() > 0)) && (player2->getIsMyTurn()))
 			{
 				player2->playerTurn();	//player 2 takes a turn if opponent and player still have stamina
 			}
+			player2->setIsMyTurn(true);
+			player2->resetStupify();
 			if ((player1->getStamina() <= 0) || (player2->getStamina() <= 0))
 			{
 				exitDuel = true;		//exit duel if either player's stamina is less than/equal to 0
@@ -153,29 +158,29 @@ void DCgame::duel()
 			displayPtr->displayNext(DCdisplay::displayOutput::clear);
 		}
 		//display winner
+		int player1Beans = player1->getBeans();
+		int player2Beans = player2->getBeans();
+		int player1Wager = wagerPtr->getPlayer1Wager();
+		int player2Wager = wagerPtr->getPlayer2Wager();
 		if (player1->getStamina() > player2->getStamina())
 		{
-			int player1Beans = player1->getBeans();
-			int player2Beans = player2->getBeans();
 			//award beans to winner from loser
-			player1->setBeans(player1Beans += wagerPtr->getPlayer1Wager());
+			player1->setBeans(player1Beans += player1Wager);
 			//take beans from losing player if player is not an AI
 			if (!player2->getIsAI())
 			{
-				player2->setBeans(player2Beans -= wagerPtr->getPlayer1Wager());
+				player2->setBeans(player2Beans -= player1Wager);
 			}
 			displayPtr->displayNext(DCdisplay::displayOutput::player1Win);
 		}
 		else
 		{
-			int player1Beans = player1->getBeans();
-			int player2Beans = player2->getBeans();
 			//award beans to winner from loser
-			player2->setBeans(player2Beans += wagerPtr->getPlayer2Wager());
+			player2->setBeans(player2Beans += player2Wager);
 			//take beans from losing player if player is not an AI
 			if (!player2->getIsAI())
 			{
-				player1->setBeans(player1Beans -= wagerPtr->getPlayer2Wager());
+				player1->setBeans(player1Beans -= player2Wager);
 			}
 			displayPtr->displayNext(DCdisplay::displayOutput::player2Win);
 		}
@@ -193,8 +198,11 @@ void DCgame::duel()
 				//call reset
 				reset();
 				goodToGo = true;
+				exitDuel = false;
 				break;
 			case 'N':
+				delete player1;
+				delete player2;
 				exitGame = true;
 				goodToGo = true;
 				break;
@@ -206,13 +214,13 @@ void DCgame::duel()
 void DCgame::reset()
 {
 	//both players are not AI
-	if (player1->getIsAI() && player2->getIsAI())
+	if (player1->getIsAI() == false && player2->getIsAI() == false)
 	{
 		player1->setStamina(100);
 		player2->setStamina(100);
 	}
 	//player 1 is not AI and player 2 is AI
-	else if (player1->getIsAI() && !player2->getIsAI())
+	else if (player1->getIsAI() == false && player2->getIsAI() == true)
 	{
 		player1->setStamina(100);
 		delete player2;
@@ -245,8 +253,8 @@ void DCgame::game()
 	setup();
 	wager();
 	connectPlayers();
-	readyToDuel();
 	duel();
+	//exit();
 }
 
 void DCgame::setStaminaToDisplay()

@@ -34,7 +34,7 @@ void DCwager::singlePlayerWager(DCplayer* player)
 		try
 		{
 			cin >> player1Wager;
-			if (player1Wager > player->getBeans())
+			if (player1Wager > (player->getBeans()))
 			{
 				//player wagers more beans than player has
 				displayPtr->displayNext(DCdisplay::displayOutput::invalidTooMany);
@@ -73,7 +73,7 @@ void DCwager::twoPlayerWager(DCplayer* player1, DCplayer* player2)
 			try
 			{
 				cin >> player1Wager;
-				if (player1Wager > player1->getBeans())
+				if (player1Wager > (player1->getBeans()))
 				{
 					//player wagers more beans than player has
 					displayPtr->displayNext(DCdisplay::displayOutput::invalidTooMany);
@@ -102,8 +102,8 @@ void DCwager::twoPlayerWager(DCplayer* player1, DCplayer* player2)
 			displayPtr->displayNext(DCdisplay::displayOutput::twoPlayerWagerPrompt);
 			try
 			{
-				cin >> player1Wager;
-				if (player1Wager > player2->getBeans())
+				cin >> player2Wager;
+				if (player2Wager > (player2->getBeans()))
 				{
 					//player wagers more beans than player has
 					displayPtr->displayNext(DCdisplay::displayOutput::invalidTooMany);

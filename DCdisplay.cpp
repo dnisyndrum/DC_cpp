@@ -174,6 +174,48 @@ void DCdisplay::displayNext(displayOutput display)
 	case player2Win:
 		cout << player2Name << "  won the duel! ";
 			break;
+	case rictusHit:
+		cout << "Rictusempra was a hit!\n";
+		break;
+	case rictusMiss:
+		cout << "Rictusempra was a miss...\n";
+		break;
+	case confHit:
+		cout << "Confringo was a hit!\n";
+		break;
+	case confMiss:
+		cout << "Confringo was a miss...\n";
+		break;
+	case locoHit:
+		cout << "Locomotor Mortis was a hit!\n";
+		break;
+	case locoMiss:
+		cout << "Locomotor Mortis was a miss...\n";
+		break;
+	case stupHit:
+		cout << "Stupify was a hit!\n";
+		break;
+	case stupMiss:
+		cout << "Stupify was a miss...\n";
+		break;
+	case mimbleHit:
+		cout << "Mimblewimble was a hit!\n";
+		break;
+	case mimbleMiss:
+		cout << "Mimblewimble was a miss...\n";
+		break;
+	case protegoHit:
+		cout << "Protego was a hit!\n";
+		break;
+	case protegoMiss:
+		cout << "Protego was a miss...\n";
+		break;
+	case expelHit:
+		cout << "Expelliarmus was a hit!\n";
+		break;
+	case expelMiss:
+		cout << "Expelliarmus was a miss...\n";
+		break;
 	}
 }
 

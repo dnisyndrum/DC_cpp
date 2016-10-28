@@ -68,7 +68,21 @@ public:
 		setupBanner,
 		duelAgain,
 		player1Win,
-		player2Win
+		player2Win,
+		rictusHit,
+		rictusMiss,
+		confHit,
+		confMiss,
+		locoHit, 
+		locoMiss,
+		stupHit,
+		stupMiss,
+		mimbleHit,
+		mimbleMiss,
+		protegoHit,
+		protegoMiss,
+		expelHit,
+		expelMiss
 	};
 
 	//constructor
@@ -111,26 +125,7 @@ public:
 	{
 		player2Stamina = stamina;
 	}
-	/*
-	//for single player, computer duel
-	void setSinglePlayerName(string name)
-	{
-		playerName = name;
-	}
 
-	void setSinglePlayerHouse(string house)
-	{
-		playerHouse = house;
-	}
-	void setSinglePlayerBeans(int beans)
-	{
-		playerBeans = beans;
-	}
-	void setSinglePlayerStamina(int stamina)
-	{
-		playerStamina = stamina;
-	}
-*/
 	
 private:
 	//for DCgame class
@@ -143,13 +138,7 @@ private:
 	string player2House;
 	int player1Beans;
 	int player2Beans;
-	/*
-	//for DCplayer class
-	string playerName;
-	int playerStamina;
-	int playerBeans;
-	string playerHouse;
-	*/
+	
 };
 #endif
 

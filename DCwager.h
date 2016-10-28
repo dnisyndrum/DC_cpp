@@ -38,6 +38,10 @@ public:
 	//for PvP
 	void twoPlayerWager(DCplayer*, DCplayer*);
 
+	//set player's wagers
+	void setPlayer1Wager(int wager){ player1Wager = wager; }
+	void setPlayer2Wager(int wager){ player2Wager = wager; }
+
 	//retrun wagers after end of game
 	int getPlayer1Wager() { return player1Wager; }
 	int getPlayer2Wager() { return player2Wager; }

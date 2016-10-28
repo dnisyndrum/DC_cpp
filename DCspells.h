@@ -43,19 +43,22 @@ public:
 	};
 
 	//constructor
-	DCspells(){};
+	DCspells(){ halfDamage = false; }
 	
-	void castRictusempra(DCplayer*, DCplayer*);
-	void castConfringo(DCplayer*, DCplayer*);
-	void castLocomotorMortis(DCplayer*, DCplayer*);
-	void castStupify(DCplayer*, DCplayer*);
-	void castMimblewimble(DCplayer*, DCplayer*);
-	void castProtego(DCplayer*, DCplayer*);
-	void castExpelliarmus(DCplayer*, DCplayer*);
+	bool castRictusempra(DCplayer*, DCplayer*);
+	bool castConfringo(DCplayer*, DCplayer*);
+	bool castLocomotorMortis(DCplayer*, DCplayer*);
+	bool castStupify(DCplayer*, DCplayer*);
+	bool castMimblewimble(DCplayer*, DCplayer*);
+	bool castProtego(DCplayer*, DCplayer*);
+	bool castExpelliarmus(DCplayer*, DCplayer*);
 	
+	void resetStupifyEffect(){ halfDamage = false; }
+
 private:
 	bool hit();
 	int damage(spell);
 
+	bool halfDamage;
 };
 #endif

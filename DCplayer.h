@@ -76,6 +76,8 @@ public:
 	void setup();
 	//called when it is this player's turn, displays duel graphic and allows player to select a spell
 	void playerTurn();
+	//reset stupify effect
+	void resetStupify() { spellsPtr->resetStupifyEffect(); }
 	
 private:
 	void setName(string newName) { myName = newName; }

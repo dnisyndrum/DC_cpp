@@ -27,48 +27,88 @@
 using namespace std;
 
 //causes damage
-void DCspells::castRictusempra(DCplayer* thisPlayer, DCplayer* player2)
+bool DCspells::castRictusempra(DCplayer* thisPlayer, DCplayer* player2)
 {
 	if (hit())
 	{
 		player2->setStamina(player2->getStamina() - damage(rictusempra));
+		return true;
 	}
+	else 
+		return false;
 }
 
 //more damage
-void DCspells::castConfringo(DCplayer* thisPlayer, DCplayer* player2)
+bool DCspells::castConfringo(DCplayer* thisPlayer, DCplayer* player2)
 {
-
+	if (hit())
+	{
+		player2->setStamina(player2->getStamina() - damage(confringo));
+		return true;
+	}
+	else
+		return false;
 }
 
 //lose next turn, no damage
-void DCspells::castLocomotorMortis(DCplayer* thisPlayer, DCplayer* player2)
+bool DCspells::castLocomotorMortis(DCplayer* thisPlayer, DCplayer* player2)
 {
-
+	if (hit())
+	{
+		player2->setIsMyTurn(false);
+		return true;
+	}
+	else
+		return false;
 }
 
 //damage, opponent next spell half power
-void DCspells::castStupify(DCplayer* thisPlayer, DCplayer* player2)
+bool DCspells::castStupify(DCplayer* thisPlayer, DCplayer* player2)
 {
+	if (hit())
+	{
+		player2->setStamina(player2->getStamina() - damage(stupify));
 
+		return true;
+	}
+	else
+		return false;
 }
 
 //tongue tied next turn
-void DCspells::castMimblewimble(DCplayer* thisPlayer, DCplayer* player2)
+bool DCspells::castMimblewimble(DCplayer* thisPlayer, DCplayer* player2)
 {
-
+	if (hit())
+	{
+		
+		return true;
+	}
+	else
+		return false;
 }
 
 //rebound last spell
-void DCspells::castProtego(DCplayer* thisPlayer, DCplayer* player2)
+bool DCspells::castProtego(DCplayer* thisPlayer, DCplayer* player2)
 {
-
+	if (hit())
+	{
+		
+		return true;
+	}
+	else
+		return false;
 }
 
 //damage, opponent lose next turn
-void DCspells::castExpelliarmus(DCplayer* thisPlayer, DCplayer* player2)
+bool DCspells::castExpelliarmus(DCplayer* thisPlayer, DCplayer* player2)
 {
-
+	if (hit())
+	{
+		
+		return true;
+	}
+	else
+		return false;
 }
 
 bool DCspells::hit()
@@ -106,6 +146,11 @@ int DCspells::damage(spell spellUsed)
 		spellDamage = (rand() % EXPEL_MAX) + SPELL_MIN;
 		break;
 	}
+	if (halfDamage) 
+	{
+		spellDamage /= 2;
+	}
+	halfDamage = false;
 	return spellDamage;
 }
 
