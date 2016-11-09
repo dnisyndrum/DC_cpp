@@ -216,6 +216,72 @@ void DCdisplay::displayNext(displayOutput display)
 	case expelMiss:
 		cout << "Expelliarmus was a miss...\n";
 		break;
+	case badRictus1:
+		cout << "Rictusrictus!\n";
+		break;
+	case badRictus2:
+		cout << "Emprarictus!\n";
+		break;
+	case badRictus3:
+		cout << "Rictusemprara!\n";
+		break;
+	case badConfringo1:
+		cout << "Cafrigo!\n";
+		break;
+	case badConfringo2:
+		cout << "Fringo!\n";
+		break;
+	case badConfringo3:
+		cout << "Confreako!\n";
+		break;
+	case badLoco1:
+		cout << "Locococomotos!\n";
+		break;
+	case badLoco2:
+		cout << "Locolocomoto!\n";
+		break;
+	case badLoco3:
+		cout << "Locomotormortmort!\n";
+		break;
+	case badStup1:
+		cout << "Stopmify!\n";
+		break;
+	case badStup2:
+		cout << "Stupstupfy!\n";
+		break;
+	case badStup3:
+		cout << "Stupfy!\n";
+		break;
+	case badMimble1:
+		cout << "Mimblywimbly!\n";
+		break;
+	case badMimble2:
+		cout << "Wimblemimble!\n";
+		break;
+	case badMimble3:
+		cout << "Wiblemible!\n";
+		break;
+	case badProtego1:
+		cout << "Protogo!\n";
+		break;
+	case badProtego2:
+		cout << "Pretoga!\n";
+		break;
+	case badProtego3:
+		cout << "Protoga!\n";
+		break;
+	case badExpel1:
+		cout << "Expeleramus!\n";
+		break;
+	case badExpel2:
+		cout << "Expelliamus!\n";
+		break;
+	case badExpel3:
+		cout << "Expellaratus!\n";
+		break;
+	case castTongueTiedSpell:
+		cout << "You cast a spell while tongue-tied by your opponent's Mimblewimble spell.\n";
+		break;
 	}
 }
 

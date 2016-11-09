@@ -40,12 +40,6 @@ public:
 		Slytherin
 	};
 
-	struct spellEffects{
-		bool skipNextTurn;
-		bool tongueTie;
-		int damage;
-
-	};
 
 	//constructor
 	DCplayer(bool duelPC = true) : myStamina(100), myBeans(100), isAI(duelPC)
@@ -53,6 +47,7 @@ public:
 		//displayPtr = new DCdisplay();
 		timerPtr = new DCtimer();
 		spellsPtr  = new DCspells();
+		isMimbled = false;
 		setup();
 	};
 
@@ -71,6 +66,7 @@ public:
 	void setDisplayPtr(DCdisplay* display) { displayPtr = display; }	//new function to help use a single DCdisplay object
 	void setIsMyTurn(bool nextTurn) { isMyTurn = nextTurn; }
 	void setPlayerNumber(int number) { playerNumber = number; }
+	void setTongueTied(bool tongueTied) { isMimbled = tongueTied; }
 
 	//sets up player information via user input
 	void setup();
@@ -78,6 +74,7 @@ public:
 	void playerTurn();
 	//reset stupify effect
 	void resetStupify() { spellsPtr->resetStupifyEffect(); }
+	void resetMimble() { isMimbled = false; }
 	
 private:
 	void setName(string newName) { myName = newName; }
@@ -102,6 +99,7 @@ private:
 	int myBeans;
 	bool isAI;
 	bool isMyTurn;
+	bool isMimbled;
 	int playerNumber;
 	DCspells* spellsPtr;
 	DCplayer* myOpponent;

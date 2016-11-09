@@ -82,7 +82,29 @@ public:
 		protegoHit,
 		protegoMiss,
 		expelHit,
-		expelMiss
+		expelMiss,
+		badRictus1,
+		badRictus2,
+		badRictus3,
+		badConfringo1,
+		badConfringo2,
+		badConfringo3,
+		badLoco1,
+		badLoco2,
+		badLoco3,
+		badStup1,
+		badStup2,
+		badStup3,
+		badMimble1,
+		badMimble2,
+		badMimble3,
+		badProtego1,
+		badProtego2,
+		badProtego3,
+		badExpel1,
+		badExpel2,
+		badExpel3,
+		castTongueTiedSpell
 	};
 
 	//constructor

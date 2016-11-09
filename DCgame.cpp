@@ -144,12 +144,14 @@ void DCgame::duel()
 			}
 			player1->setIsMyTurn(true);
 			player1->resetStupify();
+			player1->resetMimble();
 			if (((player1->getStamina() > 0) || (player2->getStamina() > 0)) && (player2->getIsMyTurn()))
 			{
 				player2->playerTurn();	//player 2 takes a turn if opponent and player still have stamina
 			}
 			player2->setIsMyTurn(true);
 			player2->resetStupify();
+			player2->resetMimble();
 			if ((player1->getStamina() <= 0) || (player2->getStamina() <= 0))
 			{
 				exitDuel = true;		//exit duel if either player's stamina is less than/equal to 0

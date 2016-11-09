@@ -39,11 +39,41 @@ public:
 		stupify,
 		mimblewimble,
 		protego,
-		expelliarmus
+		expelliarmus,
+		none
+	};
+
+	enum badSpell{
+		rictusrictus,
+		emprarictus,
+		rictusemprara,
+		cafrigo,
+		fringo,
+		confreako,
+		locococomotos,
+		locolocomoto,
+		locomotormortmort,
+		stopmify,
+		stupstupfy,
+		stupfy,
+		mimblywimbly,
+		wimblemimble,
+		wiblemible,
+		protogo,
+		pretoga,
+		protoga,
+		expeleramus,
+		expelliamus,
+		expellaratus
 	};
 
 	//constructor
-	DCspells(){ halfDamage = false; }
+	DCspells()
+	{ 
+		halfDamage = false; 
+		tongueTwist = false; 
+		lastSpell = none;
+	}
 	
 	bool castRictusempra(DCplayer*, DCplayer*);
 	bool castConfringo(DCplayer*, DCplayer*);
@@ -54,11 +84,19 @@ public:
 	bool castExpelliarmus(DCplayer*, DCplayer*);
 	
 	void resetStupifyEffect(){ halfDamage = false; }
+	void resetTongueTwist() { tongueTwist = false; }
 
 private:
 	bool hit();
 	int damage(spell);
 
 	bool halfDamage;
+	bool tongueTwist;
+	bool lastSpellTongueTie;
+	bool lastSpellHalfDamage;
+	bool lastSpellHit;
+	int lastSpellDamage;
+	spell lastSpell;
+
 };
 #endif

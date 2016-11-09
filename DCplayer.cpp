@@ -112,6 +112,9 @@ bool DCplayer::nameSelect(istream& sin)
 	 char selectedSpell;
 	 bool selected = false;
 	 char keyPress;
+	 const int MIN = 1;
+	 const int MAX = 3;
+	 int badSpellNumber = (rand() % MAX) + MIN;
 	 if (isAI)
 	 {
 		 //select from list of spells depending on health and opponent's health
@@ -142,95 +145,242 @@ bool DCplayer::nameSelect(istream& sin)
 			 switch (keyPress)
 			 {
 			 case 'R':
-				 hit = spellsPtr->castRictusempra(this, myOpponent);
-				 if (hit)
+				 if (isMimbled)
 				 {
-					 displayPtr->displayNext(DCdisplay::displayOutput::rictusHit);
+					 switch (badSpellNumber)
+					 {
+					 case 1:
+						 displayPtr->displayNext(DCdisplay::displayOutput::badRictus1);
+						 break;
+					 case 2:
+						 displayPtr->displayNext(DCdisplay::displayOutput::badRictus2);
+						 break;
+					 case 3:
+						 displayPtr->displayNext(DCdisplay::displayOutput::badRictus3);
+						 break;
+					 }
+					 selected = true;
+					 displayPtr->displayNext(DCdisplay::displayOutput::castTongueTiedSpell);
+					 timerPtr->timerWithoutCount(2);
 				 }
 				 else
 				 {
-					 displayPtr->displayNext(DCdisplay::displayOutput::rictusMiss);
+					 hit = spellsPtr->castRictusempra(this, myOpponent);
+					 if (hit)
+					 {
+						 displayPtr->displayNext(DCdisplay::displayOutput::rictusHit);
+					 }
+					 else
+					 {
+						 displayPtr->displayNext(DCdisplay::displayOutput::rictusMiss);
+					 }
+					 selected = true;
+					 timerPtr->timerWithoutCount(2);
 				 }
-				 selected = true;
-				 _sleep(1000);
 				 break;
 			 case 'C':
-				 hit = spellsPtr->castConfringo(this, myOpponent);
-				 if (hit)
+				 if (isMimbled)
 				 {
-					 displayPtr->displayNext(DCdisplay::displayOutput::confHit);
+					 switch (badSpellNumber)
+					 {
+					 case 1:
+						 displayPtr->displayNext(DCdisplay::displayOutput::badConfringo1);
+						 break;
+					 case 2:
+						 displayPtr->displayNext(DCdisplay::displayOutput::badConfringo2);
+						 break;
+					 case 3:
+						 displayPtr->displayNext(DCdisplay::displayOutput::badConfringo3);
+						 break;
+					 }
+					 selected = true;
+					 displayPtr->displayNext(DCdisplay::displayOutput::castTongueTiedSpell);
+					 timerPtr->timerWithoutCount(2);
 				 }
 				 else
 				 {
-					 displayPtr->displayNext(DCdisplay::displayOutput::confMiss);
+					 hit = spellsPtr->castConfringo(this, myOpponent);
+					 if (hit)
+					 {
+						 displayPtr->displayNext(DCdisplay::displayOutput::confHit);
+					 }
+					 else
+					 {
+						 displayPtr->displayNext(DCdisplay::displayOutput::confMiss);
+					 }
+					 selected = true;
+					 timerPtr->timerWithoutCount(2);
 				 }
-				 selected = true;
-				 _sleep(1000);
 				 break;
 			 case 'L':
-				 hit = spellsPtr->castLocomotorMortis(this, myOpponent);
-				 if (hit)
+				 if (isMimbled)
 				 {
-					 displayPtr->displayNext(DCdisplay::displayOutput::locoHit);
+					 switch (badSpellNumber)
+					 {
+					 case 1:
+						 displayPtr->displayNext(DCdisplay::displayOutput::badLoco1);
+						 break;
+					 case 2:
+						 displayPtr->displayNext(DCdisplay::displayOutput::badLoco2);
+						 break;
+					 case 3:
+						 displayPtr->displayNext(DCdisplay::displayOutput::badLoco3);
+						 break;
+					 }
+					 selected = true;
+					 displayPtr->displayNext(DCdisplay::displayOutput::castTongueTiedSpell);
+					 timerPtr->timerWithoutCount(2);
 				 }
 				 else
 				 {
-					 displayPtr->displayNext(DCdisplay::displayOutput::locoMiss);
+					 hit = spellsPtr->castLocomotorMortis(this, myOpponent);
+					 if (hit)
+					 {
+						 displayPtr->displayNext(DCdisplay::displayOutput::locoHit);
+					 }
+					 else
+					 {
+						 displayPtr->displayNext(DCdisplay::displayOutput::locoMiss);
+					 }
+					 selected = true;
+					 timerPtr->timerWithoutCount(2);
 				 }
-				 selected = true;
-				 _sleep(1000);
 				 break;
 			 case 'S':
-				 hit = spellsPtr->castStupify(this, myOpponent);
-				 if (hit)
+				 if (isMimbled)
 				 {
-					 displayPtr->displayNext(DCdisplay::displayOutput::stupHit);
+					 switch (badSpellNumber)
+					 {
+					 case 1:
+						 displayPtr->displayNext(DCdisplay::displayOutput::badStup1);
+						 break;
+					 case 2:
+						 displayPtr->displayNext(DCdisplay::displayOutput::badStup2);
+						 break;
+					 case 3:
+						 displayPtr->displayNext(DCdisplay::displayOutput::badStup3);
+						 break;
+					 }
+					 selected = true;
+					 displayPtr->displayNext(DCdisplay::displayOutput::castTongueTiedSpell);
+					 timerPtr->timerWithoutCount(2);
 				 }
 				 else
 				 {
-					 displayPtr->displayNext(DCdisplay::displayOutput::stupMiss);
+					 hit = spellsPtr->castStupify(this, myOpponent);
+					 if (hit)
+					 {
+						 displayPtr->displayNext(DCdisplay::displayOutput::stupHit);
+					 }
+					 else
+					 {
+						 displayPtr->displayNext(DCdisplay::displayOutput::stupMiss);
+					 }
+					 selected = true;
+					 timerPtr->timerWithoutCount(2);
 				 }
-				 selected = true;
-				 _sleep(1000);
 				 break;
 			 case 'M':
-				 hit = spellsPtr->castMimblewimble(this, myOpponent);
-				 if (hit)
+				 if (isMimbled)
 				 {
-					 displayPtr->displayNext(DCdisplay::displayOutput::mimbleHit);
+					 switch (badSpellNumber)
+					 {
+					 case 1:
+						 displayPtr->displayNext(DCdisplay::displayOutput::badMimble1);
+						 break;
+					 case 2:
+						 displayPtr->displayNext(DCdisplay::displayOutput::badMimble2);
+						 break;
+					 case 3:
+						 displayPtr->displayNext(DCdisplay::displayOutput::badMimble3);
+						 break;
+					 }
+					 selected = true;
+					 displayPtr->displayNext(DCdisplay::displayOutput::castTongueTiedSpell);
+					 timerPtr->timerWithoutCount(2);
 				 }
 				 else
 				 {
-					 displayPtr->displayNext(DCdisplay::displayOutput::mimbleMiss);
+					 hit = spellsPtr->castMimblewimble(this, myOpponent);
+					 if (hit)
+					 {
+						 displayPtr->displayNext(DCdisplay::displayOutput::mimbleHit);
+					 }
+					 else
+					 {
+						 displayPtr->displayNext(DCdisplay::displayOutput::mimbleMiss);
+					 }
+					 selected = true;
+					 timerPtr->timerWithoutCount(2);
 				 }
-				 selected = true;
-				 _sleep(1000);
 				 break;
 			 case 'P':
-				 hit = spellsPtr->castProtego(this, myOpponent);
-				 if (hit)
+				 if (isMimbled)
 				 {
-					 displayPtr->displayNext(DCdisplay::displayOutput::protegoHit);
+					 switch (badSpellNumber)
+					 {
+					 case 1:
+						 displayPtr->displayNext(DCdisplay::displayOutput::badProtego1);
+						 break;
+					 case 2:
+						 displayPtr->displayNext(DCdisplay::displayOutput::badProtego2);
+						 break;
+					 case 3:
+						 displayPtr->displayNext(DCdisplay::displayOutput::badProtego3);
+						 break;
+					 }
+					 selected = true;
+					 displayPtr->displayNext(DCdisplay::displayOutput::castTongueTiedSpell);
+					 timerPtr->timerWithoutCount(2);
 				 }
 				 else
 				 {
-					 displayPtr->displayNext(DCdisplay::displayOutput::protegoMiss);
+					 hit = spellsPtr->castProtego(this, myOpponent);
+					 if (hit)
+					 {
+						 displayPtr->displayNext(DCdisplay::displayOutput::protegoHit);
+					 }
+					 else
+					 {
+						 displayPtr->displayNext(DCdisplay::displayOutput::protegoMiss);
+					 }
+					 selected = true;
+					 timerPtr->timerWithoutCount(2);
 				 }
-				 selected = true;
-				 _sleep(1000);
 				 break;
 			 case 'E':
-				 hit = spellsPtr->castExpelliarmus(this, myOpponent);
-				 if (hit)
+				 if (isMimbled)
 				 {
-					 displayPtr->displayNext(DCdisplay::displayOutput::expelHit);
+					 switch (badSpellNumber)
+					 {
+					 case 1:
+						 displayPtr->displayNext(DCdisplay::displayOutput::badExpel1);
+						 break;
+					 case 2:
+						 displayPtr->displayNext(DCdisplay::displayOutput::badExpel2);
+						 break;
+					 case 3:
+						 displayPtr->displayNext(DCdisplay::displayOutput::badExpel3);
+						 break;
+					 }
+					 selected = true;
+					 displayPtr->displayNext(DCdisplay::displayOutput::castTongueTiedSpell);
+					 timerPtr->timerWithoutCount(2);
 				 }
 				 else
 				 {
-					 displayPtr->displayNext(DCdisplay::displayOutput::expelMiss);
+					 hit = spellsPtr->castExpelliarmus(this, myOpponent);
+					 if (hit)
+					 {
+						 displayPtr->displayNext(DCdisplay::displayOutput::expelHit);
+					 }
+					 else
+					 {
+						 displayPtr->displayNext(DCdisplay::displayOutput::expelMiss);
+					 }
+					 selected = true;
+					 timerPtr->timerWithoutCount(2);
 				 }
-				 selected = true;
-				 _sleep(1000);
 				 break;
 			 }
 			 if (selected){ break; }
