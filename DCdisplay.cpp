@@ -61,13 +61,13 @@ void DCdisplay::displayNext(displayOutput display)
 		break;
 	case intro2:
 		cout << "There are several spells you can use in dueling:\n";
-		cout << "   -Rictusempra -      tickling charm, inflicts damage\n";
-		cout << "   -Confringo -        exploding spell, causes sizable damage\n";
-		cout << "   -Locomotor Mortis - leg lock curse, opponent loses next turn\n";
-		cout << "   -Stupify -          inflicts damage, opponent's next spell is less powerful\n";
-		cout << "   -Mimblewimble -     your opponent is tongue-tied during next turn\n";
-		cout << "   -Protego -          rebounds last cast spell back to your opponent\n";
-		cout << "   -Expelliarmus -     causes damage, opponent loses next turn\n";
+		cout << "   -Rictusempra -       tickling charm, inflicts damage\n";
+		cout << "   -Confringo -         exploding spell, causes sizable damage\n";
+		cout << "   -Locomotor Mortis -  leg lock curse, opponent loses next turn\n";
+		cout << "   -Stupify -           inflicts damage, opponent's next spell is less powerful\n";
+		cout << "   -Mimblewimble -      your opponent is tongue-tied during next turn\n";
+		cout << "   -Expelliarmus -      causes damage, opponent loses next turn\n";
+		cout << "   -Wiggenweld Potion - increases stamina by 15 points\n";
 		break;
 	case PvPorAI:
 		cout << "Would you like to duel the computer or another player(P,C)?\n";
@@ -120,8 +120,8 @@ void DCdisplay::displayNext(displayOutput display)
 		cout << "   -Locomotor Mortis (L)\n";
 		cout << "   -Stupify          (S)\n";
 		cout << "   -Mimblewimble     (M)\n";
-		cout << "   -Protego          (P)\n";
 		cout << "   -Expelliarmus     (E)\n";
+		cout << "   -Wiggenweld Potion(W)\n";
 		break;
 	case readyToDuel:
 		cout << "Wands at the ready!\n";
@@ -204,12 +204,6 @@ void DCdisplay::displayNext(displayOutput display)
 	case mimbleMiss:
 		cout << "Mimblewimble was a miss...\n";
 		break;
-	case protegoHit:
-		cout << "Protego was a hit!\n";
-		break;
-	case protegoMiss:
-		cout << "Protego was a miss...\n";
-		break;
 	case expelHit:
 		cout << "Expelliarmus was a hit!\n";
 		break;
@@ -261,14 +255,6 @@ void DCdisplay::displayNext(displayOutput display)
 	case badMimble3:
 		cout << "Wiblemible!\n";
 		break;
-	case badProtego1:
-		cout << "Protogo!\n";
-		break;
-	case badProtego2:
-		cout << "Pretoga!\n";
-		break;
-	case badProtego3:
-		cout << "Protoga!\n";
 		break;
 	case badExpel1:
 		cout << "Expeleramus!\n";
@@ -281,6 +267,21 @@ void DCdisplay::displayNext(displayOutput display)
 		break;
 	case castTongueTiedSpell:
 		cout << "You cast a spell while tongue-tied by your opponent's Mimblewimble spell.\n";
+		break;
+	case drinkWiggenweld:
+		cout << "You drank a Wiggenweld potion, 15 points were added to your stamina.\n";
+		break;
+	case outofWiggenwelds:
+		cout << "You have no Wiggenweld potions left to drink. Select a spell to cast.\n";
+		break;
+	case haveBeenStupified:
+		cout << " has been hit by a Stupify spell. You're next spell will not be as effective.\n";
+		break;
+	case haveBeenExpelled:
+		cout << " has been hit by an Expelliarmus spell and will lose your next turn.\n";
+		break;
+	case haveBeenLocoed:
+		cout << " has been hit by a Locomotor Mortis spell and will left your next turn.\n";
 		break;
 	}
 }

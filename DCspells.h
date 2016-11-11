@@ -38,8 +38,8 @@ public:
 		locomotorMortis,
 		stupify,
 		mimblewimble,
-		protego,
 		expelliarmus,
+		wiggenweld,
 		none
 	};
 
@@ -72,7 +72,6 @@ public:
 	{ 
 		halfDamage = false; 
 		tongueTwist = false; 
-		lastSpell = none;
 	}
 	
 	bool castRictusempra(DCplayer*, DCplayer*);
@@ -82,6 +81,7 @@ public:
 	bool castMimblewimble(DCplayer*, DCplayer*);
 	bool castProtego(DCplayer*, DCplayer*);
 	bool castExpelliarmus(DCplayer*, DCplayer*);
+	bool drinkWiggenweld(DCplayer*);
 	
 	void resetStupifyEffect(){ halfDamage = false; }
 	void resetTongueTwist() { tongueTwist = false; }
@@ -92,11 +92,6 @@ private:
 
 	bool halfDamage;
 	bool tongueTwist;
-	bool lastSpellTongueTie;
-	bool lastSpellHalfDamage;
-	bool lastSpellHit;
-	int lastSpellDamage;
-	spell lastSpell;
-
+	
 };
 #endif

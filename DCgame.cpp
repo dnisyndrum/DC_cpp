@@ -142,6 +142,7 @@ void DCgame::duel()
 			{
 				player1->playerTurn();	//player 1 takes a turn if opponent and player still have stamina
 			}
+			displayPtr->updatePlayer1Stamina(player1->getStamina());
 			player1->setIsMyTurn(true);
 			player1->resetStupify();
 			player1->resetMimble();
@@ -149,6 +150,7 @@ void DCgame::duel()
 			{
 				player2->playerTurn();	//player 2 takes a turn if opponent and player still have stamina
 			}
+			displayPtr->updatePlayer2Stamina(player2->getStamina());
 			player2->setIsMyTurn(true);
 			player2->resetStupify();
 			player2->resetMimble();
@@ -220,11 +222,14 @@ void DCgame::reset()
 	{
 		player1->setStamina(100);
 		player2->setStamina(100);
+		player1->setNumWiggenwelds(3);
+		player2->setNumWiggenwelds(3);
 	}
 	//player 1 is not AI and player 2 is AI
 	else if (player1->getIsAI() == false && player2->getIsAI() == true)
 	{
 		player1->setStamina(100);
+		player1->setNumWiggenwelds(3);
 		delete player2;
 		player2 = new DCplayer(true);
 	}

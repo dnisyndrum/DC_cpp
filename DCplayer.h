@@ -48,6 +48,7 @@ public:
 		timerPtr = new DCtimer();
 		spellsPtr  = new DCspells();
 		isMimbled = false;
+		numWiggenwelds = 3;
 		setup();
 	};
 
@@ -58,6 +59,7 @@ public:
 	string getHouse();
 	int getStamina() { return myStamina; }
 	bool getIsMyTurn() {return isMyTurn;}
+	int getNumWiggenwelds() { return numWiggenwelds; }
 
 	void setBeans(int newBeans) { myBeans = newBeans; }
 	void setIsAI(bool newAI) { isAI = newAI; }
@@ -67,6 +69,7 @@ public:
 	void setIsMyTurn(bool nextTurn) { isMyTurn = nextTurn; }
 	void setPlayerNumber(int number) { playerNumber = number; }
 	void setTongueTied(bool tongueTied) { isMimbled = tongueTied; }
+	void setNumWiggenwelds(int numPotions) { numWiggenwelds = numPotions; }
 
 	//sets up player information via user input
 	void setup();
@@ -77,6 +80,21 @@ public:
 	void resetMimble() { isMimbled = false; }
 	
 private:
+	void castMimbleRictus(int);
+	void castMimbleConfringo(int);
+	void castMimbleLoco(int);
+	void castMimbleStup(int);
+	void castMimbleMimble(int);
+	void castMimbleExpel(int);
+
+	void castRictus();
+	void castConfringo();
+	void castLoco();
+	void castStup();
+	void castMimble();
+	void castExpel();
+	void drinkWiggenweld();
+
 	void setName(string newName) { myName = newName; }
 	void setHouse(house newHouse) { myHouse = newHouse; }
 
@@ -101,6 +119,7 @@ private:
 	bool isMyTurn;
 	bool isMimbled;
 	int playerNumber;
+	int numWiggenwelds;
 	DCspells* spellsPtr;
 	DCplayer* myOpponent;
 	DCtimer* timerPtr;

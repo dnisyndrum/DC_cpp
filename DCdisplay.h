@@ -79,8 +79,6 @@ public:
 		stupMiss,
 		mimbleHit,
 		mimbleMiss,
-		protegoHit,
-		protegoMiss,
 		expelHit,
 		expelMiss,
 		badRictus1,
@@ -98,13 +96,15 @@ public:
 		badMimble1,
 		badMimble2,
 		badMimble3,
-		badProtego1,
-		badProtego2,
-		badProtego3,
 		badExpel1,
 		badExpel2,
 		badExpel3,
-		castTongueTiedSpell
+		castTongueTiedSpell,
+		drinkWiggenweld,
+		outofWiggenwelds,
+		haveBeenStupified,
+		haveBeenExpelled,
+		haveBeenLocoed
 	};
 
 	//constructor

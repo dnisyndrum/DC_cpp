@@ -109,71 +109,41 @@ bool DCplayer::nameSelect(istream& sin)
  void DCplayer::playerTurn()
  {
 	 int turnTimeLimit = 10;
-	 char selectedSpell;
 	 bool selected = false;
 	 char keyPress;
 	 const int MIN = 1;
 	 const int MAX = 3;
 	 int badSpellNumber = (rand() % MAX) + MIN;
+	 //display duel graphic at start of every turn set
+	 displayPtr->displayNext(DCdisplay::displayOutput::clear);
+	 displayPtr->displayNext(DCdisplay::displayOutput::duelGraphic);
 	 if (isAI)
 	 {
 		 //select from list of spells depending on health and opponent's health
 		 AISelectSpell();
-		 //print out spell selected
+		 timerPtr->timerWithoutCount(2);
 	 }
 	 else
 	 {
-		 displayPtr->displayNext(DCdisplay::displayOutput::clear);
-		 if (playerNumber == 1)
-		 {
-			 displayPtr->updatePlayer1Stamina(getStamina());
-		 }
-		 else
-		 {
-			 displayPtr->updatePlayer2Stamina(getStamina());
-		 }
-		 //display duel graphic at start of every turn set
-		 displayPtr->displayNext(DCdisplay::displayOutput::duelGraphic);
 		 displayPtr->printName(getName());
 		 displayPtr->displayNext(DCdisplay::displayOutput::selectSpell);
 		 chrono::steady_clock::time_point endTime = chrono::steady_clock::now() + chrono::seconds(turnTimeLimit);
 		 cin.clear();	//clear buffer
 		 while (chrono::steady_clock::now() < endTime)
 		 {
-			 bool hit;
 			 keyPress = getch_noblock();
 			 switch (keyPress)
 			 {
 			 case 'R':
 				 if (isMimbled)
 				 {
-					 switch (badSpellNumber)
-					 {
-					 case 1:
-						 displayPtr->displayNext(DCdisplay::displayOutput::badRictus1);
-						 break;
-					 case 2:
-						 displayPtr->displayNext(DCdisplay::displayOutput::badRictus2);
-						 break;
-					 case 3:
-						 displayPtr->displayNext(DCdisplay::displayOutput::badRictus3);
-						 break;
-					 }
+					 castMimbleRictus(badSpellNumber);
 					 selected = true;
-					 displayPtr->displayNext(DCdisplay::displayOutput::castTongueTiedSpell);
 					 timerPtr->timerWithoutCount(2);
 				 }
 				 else
 				 {
-					 hit = spellsPtr->castRictusempra(this, myOpponent);
-					 if (hit)
-					 {
-						 displayPtr->displayNext(DCdisplay::displayOutput::rictusHit);
-					 }
-					 else
-					 {
-						 displayPtr->displayNext(DCdisplay::displayOutput::rictusMiss);
-					 }
+					 castRictus();
 					 selected = true;
 					 timerPtr->timerWithoutCount(2);
 				 }
@@ -181,33 +151,13 @@ bool DCplayer::nameSelect(istream& sin)
 			 case 'C':
 				 if (isMimbled)
 				 {
-					 switch (badSpellNumber)
-					 {
-					 case 1:
-						 displayPtr->displayNext(DCdisplay::displayOutput::badConfringo1);
-						 break;
-					 case 2:
-						 displayPtr->displayNext(DCdisplay::displayOutput::badConfringo2);
-						 break;
-					 case 3:
-						 displayPtr->displayNext(DCdisplay::displayOutput::badConfringo3);
-						 break;
-					 }
+					 castMimbleConfringo(badSpellNumber);
 					 selected = true;
-					 displayPtr->displayNext(DCdisplay::displayOutput::castTongueTiedSpell);
 					 timerPtr->timerWithoutCount(2);
 				 }
 				 else
 				 {
-					 hit = spellsPtr->castConfringo(this, myOpponent);
-					 if (hit)
-					 {
-						 displayPtr->displayNext(DCdisplay::displayOutput::confHit);
-					 }
-					 else
-					 {
-						 displayPtr->displayNext(DCdisplay::displayOutput::confMiss);
-					 }
+					 castConfringo();
 					 selected = true;
 					 timerPtr->timerWithoutCount(2);
 				 }
@@ -215,33 +165,13 @@ bool DCplayer::nameSelect(istream& sin)
 			 case 'L':
 				 if (isMimbled)
 				 {
-					 switch (badSpellNumber)
-					 {
-					 case 1:
-						 displayPtr->displayNext(DCdisplay::displayOutput::badLoco1);
-						 break;
-					 case 2:
-						 displayPtr->displayNext(DCdisplay::displayOutput::badLoco2);
-						 break;
-					 case 3:
-						 displayPtr->displayNext(DCdisplay::displayOutput::badLoco3);
-						 break;
-					 }
+					 castMimbleLoco(badSpellNumber);
 					 selected = true;
-					 displayPtr->displayNext(DCdisplay::displayOutput::castTongueTiedSpell);
 					 timerPtr->timerWithoutCount(2);
 				 }
 				 else
 				 {
-					 hit = spellsPtr->castLocomotorMortis(this, myOpponent);
-					 if (hit)
-					 {
-						 displayPtr->displayNext(DCdisplay::displayOutput::locoHit);
-					 }
-					 else
-					 {
-						 displayPtr->displayNext(DCdisplay::displayOutput::locoMiss);
-					 }
+					 castLoco();
 					 selected = true;
 					 timerPtr->timerWithoutCount(2);
 				 }
@@ -249,33 +179,13 @@ bool DCplayer::nameSelect(istream& sin)
 			 case 'S':
 				 if (isMimbled)
 				 {
-					 switch (badSpellNumber)
-					 {
-					 case 1:
-						 displayPtr->displayNext(DCdisplay::displayOutput::badStup1);
-						 break;
-					 case 2:
-						 displayPtr->displayNext(DCdisplay::displayOutput::badStup2);
-						 break;
-					 case 3:
-						 displayPtr->displayNext(DCdisplay::displayOutput::badStup3);
-						 break;
-					 }
+					 castMimbleStup(badSpellNumber);
 					 selected = true;
-					 displayPtr->displayNext(DCdisplay::displayOutput::castTongueTiedSpell);
 					 timerPtr->timerWithoutCount(2);
 				 }
 				 else
 				 {
-					 hit = spellsPtr->castStupify(this, myOpponent);
-					 if (hit)
-					 {
-						 displayPtr->displayNext(DCdisplay::displayOutput::stupHit);
-					 }
-					 else
-					 {
-						 displayPtr->displayNext(DCdisplay::displayOutput::stupMiss);
-					 }
+					 castStup();
 					 selected = true;
 					 timerPtr->timerWithoutCount(2);
 				 }
@@ -283,67 +193,13 @@ bool DCplayer::nameSelect(istream& sin)
 			 case 'M':
 				 if (isMimbled)
 				 {
-					 switch (badSpellNumber)
-					 {
-					 case 1:
-						 displayPtr->displayNext(DCdisplay::displayOutput::badMimble1);
-						 break;
-					 case 2:
-						 displayPtr->displayNext(DCdisplay::displayOutput::badMimble2);
-						 break;
-					 case 3:
-						 displayPtr->displayNext(DCdisplay::displayOutput::badMimble3);
-						 break;
-					 }
+					 castMimbleMimble(badSpellNumber);
 					 selected = true;
-					 displayPtr->displayNext(DCdisplay::displayOutput::castTongueTiedSpell);
 					 timerPtr->timerWithoutCount(2);
 				 }
 				 else
 				 {
-					 hit = spellsPtr->castMimblewimble(this, myOpponent);
-					 if (hit)
-					 {
-						 displayPtr->displayNext(DCdisplay::displayOutput::mimbleHit);
-					 }
-					 else
-					 {
-						 displayPtr->displayNext(DCdisplay::displayOutput::mimbleMiss);
-					 }
-					 selected = true;
-					 timerPtr->timerWithoutCount(2);
-				 }
-				 break;
-			 case 'P':
-				 if (isMimbled)
-				 {
-					 switch (badSpellNumber)
-					 {
-					 case 1:
-						 displayPtr->displayNext(DCdisplay::displayOutput::badProtego1);
-						 break;
-					 case 2:
-						 displayPtr->displayNext(DCdisplay::displayOutput::badProtego2);
-						 break;
-					 case 3:
-						 displayPtr->displayNext(DCdisplay::displayOutput::badProtego3);
-						 break;
-					 }
-					 selected = true;
-					 displayPtr->displayNext(DCdisplay::displayOutput::castTongueTiedSpell);
-					 timerPtr->timerWithoutCount(2);
-				 }
-				 else
-				 {
-					 hit = spellsPtr->castProtego(this, myOpponent);
-					 if (hit)
-					 {
-						 displayPtr->displayNext(DCdisplay::displayOutput::protegoHit);
-					 }
-					 else
-					 {
-						 displayPtr->displayNext(DCdisplay::displayOutput::protegoMiss);
-					 }
+					 castMimble();
 					 selected = true;
 					 timerPtr->timerWithoutCount(2);
 				 }
@@ -351,35 +207,22 @@ bool DCplayer::nameSelect(istream& sin)
 			 case 'E':
 				 if (isMimbled)
 				 {
-					 switch (badSpellNumber)
-					 {
-					 case 1:
-						 displayPtr->displayNext(DCdisplay::displayOutput::badExpel1);
-						 break;
-					 case 2:
-						 displayPtr->displayNext(DCdisplay::displayOutput::badExpel2);
-						 break;
-					 case 3:
-						 displayPtr->displayNext(DCdisplay::displayOutput::badExpel3);
-						 break;
-					 }
+					 castMimbleExpel(badSpellNumber);
 					 selected = true;
-					 displayPtr->displayNext(DCdisplay::displayOutput::castTongueTiedSpell);
 					 timerPtr->timerWithoutCount(2);
 				 }
 				 else
 				 {
-					 hit = spellsPtr->castExpelliarmus(this, myOpponent);
-					 if (hit)
-					 {
-						 displayPtr->displayNext(DCdisplay::displayOutput::expelHit);
-					 }
-					 else
-					 {
-						 displayPtr->displayNext(DCdisplay::displayOutput::expelMiss);
-					 }
+					 castExpel();
 					 selected = true;
 					 timerPtr->timerWithoutCount(2);
+				 }
+				 break;
+			 case 'W':
+				{
+					drinkWiggenweld();
+					selected = true;
+					timerPtr->timerWithoutCount(2);
 				 }
 				 break;
 			 }
@@ -480,5 +323,290 @@ void DCplayer::AISelectHouse()
 
 void DCplayer::AISelectSpell()
 {
+	int stamina = getStamina();
+	const int MIN = 1;
+	const int MAX = 3;
+	int badSpellNumber = (rand() % MAX) + MIN;
+		if (stamina < 100 && stamina > 90)
+		{
+			if (isMimbled)
+			{
+				castMimbleConfringo(badSpellNumber);
+			}
+			else
+			{
+				castConfringo();
+			}
+		}
+		else if (stamina < 89 && stamina > 80)
+		{
+			if (isMimbled)
+			{
+				castMimbleExpel(badSpellNumber);
+			}
+			else
+			{
+				castExpel();
+			}
+		}
+		else if (stamina < 79 && stamina > 70)
+		{
+			if (isMimbled)
+			{
+				castMimbleMimble(badSpellNumber);
+			}
+			else
+			{
+				castMimble();
+			}
+		}
+		else if (stamina < 69 && stamina > 60)
+		{
+			spellsPtr->castStupify(this, myOpponent);
+			if (isMimbled)
+			{
+				castMimbleStup(badSpellNumber);
+			}
+			else
+			{
+				castStup();
+			}
+		}
+		else if (stamina < 49 && stamina > 40)
+		{
+			if (isMimbled)
+			{
+				castMimbleMimble(badSpellNumber);
+			}
+			else
+			{
+				castMimble();
+			}
+		}
+		else if (stamina < 29 && stamina > 20)
+		{
+			if (isMimbled)
+			{
+				castMimbleConfringo(badSpellNumber);
+			}
+			else
+			{
+				castConfringo();
+			}
+		}
+		else if (stamina < 20 && numWiggenwelds < 0)
+		{
+			drinkWiggenweld();
+		}
+		else
+		{
+			if (isMimbled)
+			{
+				castMimbleRictus(badSpellNumber);
+			}
+			else
+			{
+				castRictus();
+			}
+		}
+}
 
+void DCplayer::castMimbleRictus(int badSpellNumber)
+{
+	switch (badSpellNumber)
+	{
+	case 1:
+		displayPtr->displayNext(DCdisplay::displayOutput::badRictus1);
+		break;
+	case 2:
+		displayPtr->displayNext(DCdisplay::displayOutput::badRictus2);
+		break;
+	case 3:
+		displayPtr->displayNext(DCdisplay::displayOutput::badRictus3);
+		break;
+	}
+	displayPtr->displayNext(DCdisplay::displayOutput::castTongueTiedSpell);
+	
+}
+
+void DCplayer::castMimbleConfringo(int badSpellNumber)
+{
+	switch (badSpellNumber)
+	{
+	case 1:
+		displayPtr->displayNext(DCdisplay::displayOutput::badConfringo1);
+		break;
+	case 2:
+		displayPtr->displayNext(DCdisplay::displayOutput::badConfringo2);
+		break;
+	case 3:
+		displayPtr->displayNext(DCdisplay::displayOutput::badConfringo3);
+		break;
+	}
+	displayPtr->displayNext(DCdisplay::displayOutput::castTongueTiedSpell);
+}
+
+void DCplayer::castMimbleLoco(int badSpellNumber)
+{
+	switch (badSpellNumber)
+	{
+	case 1:
+		displayPtr->displayNext(DCdisplay::displayOutput::badLoco1);
+		break;
+	case 2:
+		displayPtr->displayNext(DCdisplay::displayOutput::badLoco2);
+		break;
+	case 3:
+		displayPtr->displayNext(DCdisplay::displayOutput::badLoco3);
+		break;
+	}
+	displayPtr->displayNext(DCdisplay::displayOutput::castTongueTiedSpell);
+}
+
+void DCplayer::castMimbleStup(int badSpellNumber)
+{
+	switch (badSpellNumber)
+	{
+	case 1:
+		displayPtr->displayNext(DCdisplay::displayOutput::badStup1);
+		break;
+	case 2:
+		displayPtr->displayNext(DCdisplay::displayOutput::badStup2);
+		break;
+	case 3:
+		displayPtr->displayNext(DCdisplay::displayOutput::badStup3);
+		break;
+	}
+	displayPtr->displayNext(DCdisplay::displayOutput::castTongueTiedSpell);
+}
+
+void DCplayer::castMimbleMimble(int badSpellNumber)
+{
+	switch (badSpellNumber)
+	{
+	case 1:
+		displayPtr->displayNext(DCdisplay::displayOutput::badMimble1);
+		break;
+	case 2:
+		displayPtr->displayNext(DCdisplay::displayOutput::badMimble2);
+		break;
+	case 3:
+		displayPtr->displayNext(DCdisplay::displayOutput::badMimble3);
+		break;
+	}
+	displayPtr->displayNext(DCdisplay::displayOutput::castTongueTiedSpell);
+}
+
+void DCplayer::castMimbleExpel(int badSpellNumber)
+{
+	switch (badSpellNumber)
+	{
+	case 1:
+		displayPtr->displayNext(DCdisplay::displayOutput::badExpel1);
+		break;
+	case 2:
+		displayPtr->displayNext(DCdisplay::displayOutput::badExpel2);
+		break;
+	case 3:
+		displayPtr->displayNext(DCdisplay::displayOutput::badExpel3);
+		break;
+	}
+	displayPtr->displayNext(DCdisplay::displayOutput::castTongueTiedSpell);
+}
+
+void DCplayer::castRictus()
+{
+	bool hit = spellsPtr->castRictusempra(this, myOpponent);
+	if (hit)
+	{
+		displayPtr->displayNext(DCdisplay::displayOutput::rictusHit);
+	}
+	else
+	{
+		displayPtr->displayNext(DCdisplay::displayOutput::rictusMiss);
+	}
+}
+
+void DCplayer::castConfringo()
+{
+	bool hit = spellsPtr->castConfringo(this, myOpponent);
+	if (hit)
+	{
+		displayPtr->displayNext(DCdisplay::displayOutput::confHit);
+	}
+	else
+	{
+		displayPtr->displayNext(DCdisplay::displayOutput::confMiss);
+	}
+}
+
+void DCplayer::castLoco()
+{
+	bool hit = spellsPtr->castLocomotorMortis(this, myOpponent);
+	if (hit)
+	{
+		cout << myOpponent->getName();
+		displayPtr->displayNext(DCdisplay::displayOutput::locoHit);
+		displayPtr->displayNext(DCdisplay::displayOutput::haveBeenLocoed);
+	}
+	else
+	{
+		displayPtr->displayNext(DCdisplay::displayOutput::locoMiss);
+	}
+}
+
+void DCplayer::castStup()
+{
+	bool hit = spellsPtr->castStupify(this, myOpponent);
+	if (hit)
+	{
+		cout << myOpponent->getName();
+		displayPtr->displayNext(DCdisplay::displayOutput::stupHit);
+		displayPtr->displayNext(DCdisplay::displayOutput::haveBeenExpelled);
+	}
+	else
+	{
+		displayPtr->displayNext(DCdisplay::displayOutput::stupMiss);
+	}
+}
+
+void DCplayer::castMimble()
+{
+	bool hit = spellsPtr->castMimblewimble(this, myOpponent);
+	if (hit)
+	{
+		displayPtr->displayNext(DCdisplay::displayOutput::mimbleHit);
+	}
+	else
+	{
+		displayPtr->displayNext(DCdisplay::displayOutput::mimbleMiss);
+	}
+}
+
+void DCplayer::castExpel()
+{
+	bool hit = spellsPtr->castExpelliarmus(this, myOpponent);
+	if (hit)
+	{
+		cout << myOpponent->getName();
+		displayPtr->displayNext(DCdisplay::displayOutput::expelHit);
+		displayPtr->displayNext(DCdisplay::displayOutput::haveBeenExpelled);
+	}
+	else
+	{
+		displayPtr->displayNext(DCdisplay::displayOutput::expelMiss);
+	}
+}
+
+void DCplayer::drinkWiggenweld()
+{
+	if (numWiggenwelds > 0)
+	{
+		spellsPtr->drinkWiggenweld(this);
+		displayPtr->displayNext(DCdisplay::displayOutput::drinkWiggenweld);
+	}
+	else
+	{
+		displayPtr->displayNext(DCdisplay::displayOutput::outofWiggenwelds);
+	}
 }
